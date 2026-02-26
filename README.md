@@ -27,6 +27,7 @@ It syncs meal timing, workout scheduling, caffeine guidance, and sleep optimisat
 | 🥗 Dual food database | Open Food Facts (3M+ foods, online) + NightFuel Library (760 whole foods, offline) |
 | 🏋️ Smart workouts | Intensity auto-adjusted by fatigue, shift hours, and sleep quality |
 | 🤝 Coach marketplace | Certified coaches can manage clients, create plans, and chat |
+| 🕌 Ramadan Mode | Active fasting schedule adjustments tailored for Suhoor and Iftar |
 
 ---
 
