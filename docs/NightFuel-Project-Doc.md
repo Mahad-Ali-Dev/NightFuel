@@ -929,12 +929,12 @@ const date = d.toISOString().split('T')[0] as string;
 - [x] Subscription tiers (Stripe)
 - [x] Web client (Next.js 15)
 
-### Phase 2 — AI & Circadian (In Progress 🔄)
-- [ ] Circadian engine fully wired to meal planner
-- [ ] AI day plan generation (Claude integration)
-- [ ] Meal adherence calculation (vs plan targets)
-- [ ] AI weekly report generation
-- [ ] Caffeine timing notifications
+### Phase 2 — AI & Circadian (Complete ✅)
+- [x] Circadian engine fully wired to meal planner
+- [x] AI day plan generation (Claude integration)
+- [x] Meal adherence calculation (vs plan targets)
+- [x] AI weekly report generation
+- [x] Caffeine timing notifications
 
 ### Phase 3 — Advanced Features
 - [ ] Barcode scanning (camera API)
