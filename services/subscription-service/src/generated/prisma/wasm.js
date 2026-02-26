@@ -132,6 +132,7 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   cancelAtPeriodEnd: 'cancelAtPeriodEnd',
   stripeCustomerId: 'stripeCustomerId',
   stripeSubId: 'stripeSubId',
+  stripeConnectId: 'stripeConnectId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

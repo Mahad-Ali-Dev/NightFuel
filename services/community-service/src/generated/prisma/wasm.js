@@ -110,13 +110,28 @@ exports.Prisma.CommentScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.DailyChallengeScalarFieldEnum = {
+exports.Prisma.UserScoreScalarFieldEnum = {
+  userId: 'userId',
+  xp: 'xp',
+  level: 'level'
+};
+
+exports.Prisma.ChallengeScalarFieldEnum = {
   id: 'id',
-  date: 'date',
   title: 'title',
   description: 'description',
   xpReward: 'xpReward',
-  participants: 'participants'
+  startDate: 'startDate',
+  endDate: 'endDate'
+};
+
+exports.Prisma.ChallengeParticipantScalarFieldEnum = {
+  id: 'id',
+  challengeId: 'challengeId',
+  userId: 'userId',
+  progress: 'progress',
+  completed: 'completed',
+  joinedAt: 'joinedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -138,7 +153,9 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   Post: 'Post',
   Comment: 'Comment',
-  DailyChallenge: 'DailyChallenge'
+  UserScore: 'UserScore',
+  Challenge: 'Challenge',
+  ChallengeParticipant: 'ChallengeParticipant'
 };
 /**
  * Create the Client
@@ -187,13 +204,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"COMMUNITY_DATABASE_URL\")\n  directUrl = env(\"COMMUNITY_DIRECT_URL\")\n}\n\nmodel Post {\n  id        String   @id @default(uuid())\n  authorId  String   @map(\"author_id\")\n  content   String\n  imageUrl  String?  @map(\"image_url\")\n  likes     Int      @default(0)\n  createdAt DateTime @default(now()) @map(\"created_at\")\n\n  comments Comment[]\n\n  @@index([createdAt(sort: Desc)])\n  @@map(\"posts\")\n}\n\nmodel Comment {\n  id        String   @id @default(uuid())\n  postId    String   @map(\"post_id\")\n  authorId  String   @map(\"author_id\")\n  text      String\n  createdAt DateTime @default(now()) @map(\"created_at\")\n\n  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)\n\n  @@index([postId])\n  @@map(\"comments\")\n}\n\nmodel DailyChallenge {\n  id           String   @id @default(uuid())\n  date         DateTime @db.Date\n  title        String\n  description  String\n  xpReward     Int      @map(\"xp_reward\")\n  participants String[] @default([]) // Array of user IDs\n\n  @@unique([date])\n  @@map(\"daily_challenges\")\n}\n",
-  "inlineSchemaHash": "de5319ee4ab143ffa31a7e464389d0fa3887438a3c188373fa4dbd70e6987b9f",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"COMMUNITY_DATABASE_URL\")\n  directUrl = env(\"COMMUNITY_DIRECT_URL\")\n}\n\nmodel Post {\n  id        String   @id @default(uuid())\n  authorId  String   @map(\"author_id\")\n  content   String\n  imageUrl  String?  @map(\"image_url\")\n  likes     Int      @default(0)\n  createdAt DateTime @default(now()) @map(\"created_at\")\n\n  comments Comment[]\n\n  @@index([createdAt(sort: Desc)])\n  @@map(\"posts\")\n}\n\nmodel Comment {\n  id        String   @id @default(uuid())\n  postId    String   @map(\"post_id\")\n  authorId  String   @map(\"author_id\")\n  text      String\n  createdAt DateTime @default(now()) @map(\"created_at\")\n\n  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)\n\n  @@index([postId])\n  @@map(\"comments\")\n}\n\nmodel UserScore {\n  userId String @id @map(\"user_id\")\n  xp     Int    @default(0)\n  level  Int    @default(1)\n\n  @@index([xp(sort: Desc)])\n  @@map(\"user_scores\")\n}\n\nmodel Challenge {\n  id          String   @id @default(uuid())\n  title       String\n  description String\n  xpReward    Int      @map(\"xp_reward\")\n  startDate   DateTime @map(\"start_date\")\n  endDate     DateTime @map(\"end_date\")\n\n  participants ChallengeParticipant[]\n\n  @@map(\"challenges\")\n}\n\nmodel ChallengeParticipant {\n  id          String   @id @default(uuid())\n  challengeId String   @map(\"challenge_id\")\n  userId      String   @map(\"user_id\")\n  progress    Int      @default(0)\n  completed   Boolean  @default(false)\n  joinedAt    DateTime @default(now()) @map(\"joined_at\")\n\n  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)\n\n  @@unique([challengeId, userId])\n  @@map(\"challenge_participants\")\n}\n",
+  "inlineSchemaHash": "71f87524a1c65904c1e55dabd9dbe567b6f8516fc3eb1bfe631203269c561035",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Post\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"author_id\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"image_url\"},{\"name\":\"likes\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentToPost\"}],\"dbName\":\"posts\"},\"Comment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"postId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"post_id\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"author_id\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"post\",\"kind\":\"object\",\"type\":\"Post\",\"relationName\":\"CommentToPost\"}],\"dbName\":\"comments\"},\"DailyChallenge\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"xpReward\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"xp_reward\"},{\"name\":\"participants\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":\"daily_challenges\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Post\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"author_id\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"image_url\"},{\"name\":\"likes\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"comments\",\"kind\":\"object\",\"type\":\"Comment\",\"relationName\":\"CommentToPost\"}],\"dbName\":\"posts\"},\"Comment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"postId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"post_id\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"author_id\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"post\",\"kind\":\"object\",\"type\":\"Post\",\"relationName\":\"CommentToPost\"}],\"dbName\":\"comments\"},\"UserScore\":{\"fields\":[{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"user_id\"},{\"name\":\"xp\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"level\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":\"user_scores\"},\"Challenge\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"xpReward\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"xp_reward\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"start_date\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"end_date\"},{\"name\":\"participants\",\"kind\":\"object\",\"type\":\"ChallengeParticipant\",\"relationName\":\"ChallengeToChallengeParticipant\"}],\"dbName\":\"challenges\"},\"ChallengeParticipant\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"challengeId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"challenge_id\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"user_id\"},{\"name\":\"progress\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"completed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"joinedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"joined_at\"},{\"name\":\"challenge\",\"kind\":\"object\",\"type\":\"Challenge\",\"relationName\":\"ChallengeToChallengeParticipant\"}],\"dbName\":\"challenge_participants\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

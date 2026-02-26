@@ -138,13 +138,28 @@ exports.Prisma.CommentScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.DailyChallengeScalarFieldEnum = {
+exports.Prisma.UserScoreScalarFieldEnum = {
+  userId: 'userId',
+  xp: 'xp',
+  level: 'level'
+};
+
+exports.Prisma.ChallengeScalarFieldEnum = {
   id: 'id',
-  date: 'date',
   title: 'title',
   description: 'description',
   xpReward: 'xpReward',
-  participants: 'participants'
+  startDate: 'startDate',
+  endDate: 'endDate'
+};
+
+exports.Prisma.ChallengeParticipantScalarFieldEnum = {
+  id: 'id',
+  challengeId: 'challengeId',
+  userId: 'userId',
+  progress: 'progress',
+  completed: 'completed',
+  joinedAt: 'joinedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -166,7 +181,9 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   Post: 'Post',
   Comment: 'Comment',
-  DailyChallenge: 'DailyChallenge'
+  UserScore: 'UserScore',
+  Challenge: 'Challenge',
+  ChallengeParticipant: 'ChallengeParticipant'
 };
 
 /**

@@ -17,6 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { motion, AnimatePresence } from 'framer-motion';
 import { MealInsightsPanel } from '@/components/nutrition/MealInsightsPanel';
 import { toast } from 'sonner';
+import { BarcodeScannerModal } from '@/components/BarcodeScannerModal';
 
 // ── FoodNutrition type mirrors /api/food-search/route.ts ─────────────────────
 interface FoodNutrition {
@@ -73,34 +74,34 @@ type SearchMode = 'openfoodfacts' | 'library';
 
 const REGIONS = [
     { code: 'world', label: '🌍 World' },
-    { code: 'us',    label: '🇺🇸 USA' },
-    { code: 'pk',    label: '🇵🇰 Pakistan' },
-    { code: 'in',    label: '🇮🇳 India' },
-    { code: 'uk',    label: '🇬🇧 UK' },
-    { code: 'ae',    label: '🇦🇪 UAE' },
-    { code: 'eg',    label: '🇪🇬 Egypt' },
-    { code: 'tr',    label: '🇹🇷 Turkey' },
+    { code: 'us', label: '🇺🇸 USA' },
+    { code: 'pk', label: '🇵🇰 Pakistan' },
+    { code: 'in', label: '🇮🇳 India' },
+    { code: 'uk', label: '🇬🇧 UK' },
+    { code: 'ae', label: '🇦🇪 UAE' },
+    { code: 'eg', label: '🇪🇬 Egypt' },
+    { code: 'tr', label: '🇹🇷 Turkey' },
 ];
 
 // Map a meal-service FoodItem API response to our FoodNutrition shape
 function foodItemToNutrition(item: Record<string, any>): FoodNutrition {
     return {
-        id:           item.id as string,
-        name:         item.name as string,
-        servingSize:  (item.servingSize ?? item.serving_size ?? '100g') as string,
-        source:       'library',
-        foodGroup:    (item.foodGroup ?? item.food_group ?? undefined) as string | undefined,
-        isVegan:      Boolean(item.isVegan ?? item.is_vegan),
+        id: item.id as string,
+        name: item.name as string,
+        servingSize: (item.servingSize ?? item.serving_size ?? '100g') as string,
+        source: 'library',
+        foodGroup: (item.foodGroup ?? item.food_group ?? undefined) as string | undefined,
+        isVegan: Boolean(item.isVegan ?? item.is_vegan),
         isGlutenFree: Boolean(item.isGlutenFree ?? item.is_gluten_free),
-        isHalal:      Boolean(item.isHalal ?? item.is_halal),
-        calories:     Number(item.calories) || 0,
-        protein:      Number(item.protein)  || 0,
-        carbs:        Number(item.carbs)    || 0,
-        fat:          Number(item.fat)      || 0,
-        fiber:        Number(item.fiber)    || 0,
-        sugar:        Number(item.sugar)    || 0,
+        isHalal: Boolean(item.isHalal ?? item.is_halal),
+        calories: Number(item.calories) || 0,
+        protein: Number(item.protein) || 0,
+        carbs: Number(item.carbs) || 0,
+        fat: Number(item.fat) || 0,
+        fiber: Number(item.fiber) || 0,
+        sugar: Number(item.sugar) || 0,
         saturatedFat: 0,
-        sodium:       Number(item.sodiumMg ?? item.sodium_mg) || 0,
+        sodium: Number(item.sodiumMg ?? item.sodium_mg) || 0,
     };
 }
 
@@ -121,9 +122,9 @@ function MicroRow({ label, value, unit, color = 'text-neutral-300' }: {
 function DietBadge({ isVegan, isGlutenFree, isHalal }: { isVegan?: boolean; isGlutenFree?: boolean; isHalal?: boolean }) {
     return (
         <div className="flex flex-wrap gap-1 mt-1">
-            {isVegan      && <span className="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full font-medium">🌱 Vegan</span>}
+            {isVegan && <span className="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded-full font-medium">🌱 Vegan</span>}
             {isGlutenFree && <span className="text-[9px] bg-amber-500/15 text-amber-400 px-1.5 py-0.5 rounded-full font-medium">🌾 GF</span>}
-            {isHalal      && <span className="text-[9px] bg-blue-500/15 text-blue-400 px-1.5 py-0.5 rounded-full font-medium">☪ Halal</span>}
+            {isHalal && <span className="text-[9px] bg-blue-500/15 text-blue-400 px-1.5 py-0.5 rounded-full font-medium">☪ Halal</span>}
         </div>
     );
 }
@@ -220,23 +221,23 @@ function FoodResultCard({ food, onAdd }: { food: FoodNutrition; onAdd: () => voi
                                 {hasMicros && (
                                     <div>
                                         <p className="text-[9px] uppercase tracking-widest text-neutral-600 font-bold mb-1.5">Vitamins</p>
-                                        <MicroRow label="Vitamin C"   value={food.vitaminC}  unit="mg" color="text-orange-400" />
-                                        <MicroRow label="Vitamin A"   value={food.vitaminA}  unit="μg" color="text-amber-400" />
-                                        <MicroRow label="Vitamin D"   value={food.vitaminD}  unit="μg" color="text-yellow-400" />
+                                        <MicroRow label="Vitamin C" value={food.vitaminC} unit="mg" color="text-orange-400" />
+                                        <MicroRow label="Vitamin A" value={food.vitaminA} unit="μg" color="text-amber-400" />
+                                        <MicroRow label="Vitamin D" value={food.vitaminD} unit="μg" color="text-yellow-400" />
                                         <MicroRow label="Vitamin B12" value={food.vitaminB12} unit="μg" color="text-pink-400" />
-                                        <MicroRow label="Vitamin B6"  value={food.vitaminB6}  unit="mg" color="text-rose-400" />
-                                        <MicroRow label="Folate"      value={food.folate}     unit="μg" color="text-fuchsia-400" />
+                                        <MicroRow label="Vitamin B6" value={food.vitaminB6} unit="mg" color="text-rose-400" />
+                                        <MicroRow label="Folate" value={food.folate} unit="μg" color="text-fuchsia-400" />
                                     </div>
                                 )}
                                 {/* Minerals */}
                                 <div>
                                     <p className="text-[9px] uppercase tracking-widest text-neutral-600 font-bold mb-1.5">Minerals</p>
-                                    <MicroRow label="Sodium"     value={food.sodium}     unit="mg" color="text-red-400" />
-                                    <MicroRow label="Calcium"    value={food.calcium}    unit="mg" color="text-blue-300" />
-                                    <MicroRow label="Iron"       value={food.iron}       unit="mg" color="text-red-300" />
-                                    <MicroRow label="Potassium"  value={food.potassium}  unit="mg" color="text-green-400" />
-                                    <MicroRow label="Magnesium"  value={food.magnesium}  unit="mg" color="text-teal-400" />
-                                    <MicroRow label="Zinc"       value={food.zinc}       unit="mg" color="text-indigo-400" />
+                                    <MicroRow label="Sodium" value={food.sodium} unit="mg" color="text-red-400" />
+                                    <MicroRow label="Calcium" value={food.calcium} unit="mg" color="text-blue-300" />
+                                    <MicroRow label="Iron" value={food.iron} unit="mg" color="text-red-300" />
+                                    <MicroRow label="Potassium" value={food.potassium} unit="mg" color="text-green-400" />
+                                    <MicroRow label="Magnesium" value={food.magnesium} unit="mg" color="text-teal-400" />
+                                    <MicroRow label="Zinc" value={food.zinc} unit="mg" color="text-indigo-400" />
                                     <MicroRow label="Phosphorus" value={food.phosphorus} unit="mg" color="text-violet-400" />
                                 </div>
                             </div>
@@ -245,10 +246,10 @@ function FoodResultCard({ food, onAdd }: { food: FoodNutrition; onAdd: () => voi
                                 <div className="mt-2 pt-2 border-t border-white/5">
                                     <p className="text-[9px] uppercase tracking-widest text-neutral-600 font-bold mb-1.5">Details</p>
                                     <div className="grid grid-cols-2 gap-x-4">
-                                        <MicroRow label="Fiber"        value={food.fiber}        unit="g"  color="text-purple-400" />
-                                        <MicroRow label="Sugar"        value={food.sugar}        unit="g"  color="text-pink-300" />
-                                        <MicroRow label="Saturated Fat" value={food.saturatedFat} unit="g"  color="text-orange-400" />
-                                        <MicroRow label="Cholesterol"  value={food.cholesterol}  unit="mg" color="text-yellow-400" />
+                                        <MicroRow label="Fiber" value={food.fiber} unit="g" color="text-purple-400" />
+                                        <MicroRow label="Sugar" value={food.sugar} unit="g" color="text-pink-300" />
+                                        <MicroRow label="Saturated Fat" value={food.saturatedFat} unit="g" color="text-orange-400" />
+                                        <MicroRow label="Cholesterol" value={food.cholesterol} unit="mg" color="text-yellow-400" />
                                     </div>
                                 </div>
                             )}
@@ -288,15 +289,16 @@ export default function MealLoggerPage() {
     const router = useRouter();
     const queryClient = useQueryClient();
 
-    const [searchTerm, setSearchTerm]     = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState<FoodNutrition[]>([]);
     const [selectedFoods, setSelectedFoods] = useState<LogEntry[]>([]);
-    const [mealType, setMealType]         = useState<MealType>(MealType.LUNCH);
-    const [isSearching, setIsSearching]   = useState(false);
-    const [searchError, setSearchError]   = useState('');
-    const [region, setRegion]             = useState('world');
+    const [mealType, setMealType] = useState<MealType>(MealType.LUNCH);
+    const [isSearching, setIsSearching] = useState(false);
+    const [searchError, setSearchError] = useState('');
+    const [region, setRegion] = useState('world');
     const [showRegionMenu, setShowRegionMenu] = useState(false);
-    const [searchMode, setSearchMode]     = useState<SearchMode>('openfoodfacts');
+    const [searchMode, setSearchMode] = useState<SearchMode>('openfoodfacts');
+    const [isScannerOpen, setIsScannerOpen] = useState(false);
 
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -404,16 +406,16 @@ export default function MealLoggerPage() {
     const handleLogMeal = () => {
         if (selectedFoods.length === 0) return;
         logMutation.mutate({
-            userId:    user.id,
+            userId: user.id,
             mealType,
             foodItems: selectedFoods.map(f => ({
-                foodId:      f.id,
-                name:        f.name,
-                quantity:    f.quantity,
-                calories:    f.calories,
-                protein:     f.protein,
-                carbs:       f.carbs,
-                fat:         f.fat,
+                foodId: f.id,
+                name: f.name,
+                quantity: f.quantity,
+                calories: f.calories,
+                protein: f.protein,
+                carbs: f.carbs,
+                fat: f.fat,
                 servingSize: f.servingSize,
             })),
             isAdherent: true,
@@ -424,9 +426,9 @@ export default function MealLoggerPage() {
     const totals = selectedFoods.reduce(
         (acc, f) => ({
             calories: acc.calories + f.calories * f.quantity,
-            protein:  acc.protein  + f.protein  * f.quantity,
-            carbs:    acc.carbs    + f.carbs    * f.quantity,
-            fat:      acc.fat      + f.fat      * f.quantity,
+            protein: acc.protein + f.protein * f.quantity,
+            carbs: acc.carbs + f.carbs * f.quantity,
+            fat: acc.fat + f.fat * f.quantity,
         }),
         { calories: 0, protein: 0, carbs: 0, fat: 0 }
     );
@@ -475,22 +477,20 @@ export default function MealLoggerPage() {
                         <div className="flex items-center rounded-xl border border-white/10 bg-white/5 p-0.5">
                             <button
                                 onClick={() => changeMode('openfoodfacts')}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    searchMode === 'openfoodfacts'
+                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${searchMode === 'openfoodfacts'
                                         ? 'bg-brand-500 text-white shadow'
                                         : 'text-neutral-400 hover:text-white'
-                                }`}
+                                    }`}
                             >
                                 <Globe className="h-3.5 w-3.5" />
                                 Online
                             </button>
                             <button
                                 onClick={() => changeMode('library')}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    searchMode === 'library'
+                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${searchMode === 'library'
                                         ? 'bg-emerald-500 text-white shadow'
                                         : 'text-neutral-400 hover:text-white'
-                                }`}
+                                    }`}
                             >
                                 <BookOpen className="h-3.5 w-3.5" />
                                 Library
@@ -566,7 +566,8 @@ export default function MealLoggerPage() {
                                         variant="outline"
                                         size="icon"
                                         className="h-11 w-11 shrink-0 border-white/10 bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-brand-400"
-                                        title="Scan Barcode (coming soon)"
+                                        title="Scan Barcode"
+                                        onClick={() => setIsScannerOpen(true)}
                                     >
                                         <ScanBarcode className="h-4 w-4" />
                                     </Button>
@@ -733,9 +734,9 @@ export default function MealLoggerPage() {
                                         <div className="text-[9px] uppercase tracking-widest text-neutral-500 font-bold mt-0.5">Calories</div>
                                     </div>
                                     <div className="flex gap-4">
-                                        <MacroDial value={totals.protein} max={150} label="Pro"  color="text-emerald-500" />
-                                        <MacroDial value={totals.carbs}   max={250} label="Carb" color="text-blue-500" />
-                                        <MacroDial value={totals.fat}     max={80}  label="Fat"  color="text-amber-500" />
+                                        <MacroDial value={totals.protein} max={150} label="Pro" color="text-emerald-500" />
+                                        <MacroDial value={totals.carbs} max={250} label="Carb" color="text-blue-500" />
+                                        <MacroDial value={totals.fat} max={80} label="Fat" color="text-amber-500" />
                                     </div>
                                 </div>
                                 <Button
@@ -754,6 +755,16 @@ export default function MealLoggerPage() {
                     </Card>
                 </div>
             </motion.div>
+
+            <BarcodeScannerModal
+                isOpen={isScannerOpen}
+                onClose={() => setIsScannerOpen(false)}
+                onScan={(code) => {
+                    setSearchTerm(code);
+                    setSearchMode('openfoodfacts');
+                    runSearch(code, 'openfoodfacts', region);
+                }}
+            />
         </div>
     );
 }

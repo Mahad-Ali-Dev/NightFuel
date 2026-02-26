@@ -24,10 +24,20 @@ export type Post = $Result.DefaultSelection<Prisma.$PostPayload>
  */
 export type Comment = $Result.DefaultSelection<Prisma.$CommentPayload>
 /**
- * Model DailyChallenge
+ * Model UserScore
  * 
  */
-export type DailyChallenge = $Result.DefaultSelection<Prisma.$DailyChallengePayload>
+export type UserScore = $Result.DefaultSelection<Prisma.$UserScorePayload>
+/**
+ * Model Challenge
+ * 
+ */
+export type Challenge = $Result.DefaultSelection<Prisma.$ChallengePayload>
+/**
+ * Model ChallengeParticipant
+ * 
+ */
+export type ChallengeParticipant = $Result.DefaultSelection<Prisma.$ChallengeParticipantPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -168,14 +178,34 @@ export class PrismaClient<
   get comment(): Prisma.CommentDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.dailyChallenge`: Exposes CRUD operations for the **DailyChallenge** model.
+   * `prisma.userScore`: Exposes CRUD operations for the **UserScore** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more DailyChallenges
-    * const dailyChallenges = await prisma.dailyChallenge.findMany()
+    * // Fetch zero or more UserScores
+    * const userScores = await prisma.userScore.findMany()
     * ```
     */
-  get dailyChallenge(): Prisma.DailyChallengeDelegate<ExtArgs, ClientOptions>;
+  get userScore(): Prisma.UserScoreDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.challenge`: Exposes CRUD operations for the **Challenge** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Challenges
+    * const challenges = await prisma.challenge.findMany()
+    * ```
+    */
+  get challenge(): Prisma.ChallengeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.challengeParticipant`: Exposes CRUD operations for the **ChallengeParticipant** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ChallengeParticipants
+    * const challengeParticipants = await prisma.challengeParticipant.findMany()
+    * ```
+    */
+  get challengeParticipant(): Prisma.ChallengeParticipantDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -619,7 +649,9 @@ export namespace Prisma {
   export const ModelName: {
     Post: 'Post',
     Comment: 'Comment',
-    DailyChallenge: 'DailyChallenge'
+    UserScore: 'UserScore',
+    Challenge: 'Challenge',
+    ChallengeParticipant: 'ChallengeParticipant'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -638,7 +670,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "comment" | "dailyChallenge"
+      modelProps: "post" | "comment" | "userScore" | "challenge" | "challengeParticipant"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -790,77 +822,225 @@ export namespace Prisma {
           }
         }
       }
-      DailyChallenge: {
-        payload: Prisma.$DailyChallengePayload<ExtArgs>
-        fields: Prisma.DailyChallengeFieldRefs
+      UserScore: {
+        payload: Prisma.$UserScorePayload<ExtArgs>
+        fields: Prisma.UserScoreFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.DailyChallengeFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload> | null
+            args: Prisma.UserScoreFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.DailyChallengeFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload>
+            args: Prisma.UserScoreFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
           }
           findFirst: {
-            args: Prisma.DailyChallengeFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload> | null
+            args: Prisma.UserScoreFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.DailyChallengeFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload>
+            args: Prisma.UserScoreFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
           }
           findMany: {
-            args: Prisma.DailyChallengeFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload>[]
+            args: Prisma.UserScoreFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>[]
           }
           create: {
-            args: Prisma.DailyChallengeCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload>
+            args: Prisma.UserScoreCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
           }
           createMany: {
-            args: Prisma.DailyChallengeCreateManyArgs<ExtArgs>
+            args: Prisma.UserScoreCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.DailyChallengeCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload>[]
+            args: Prisma.UserScoreCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>[]
           }
           delete: {
-            args: Prisma.DailyChallengeDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload>
+            args: Prisma.UserScoreDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
           }
           update: {
-            args: Prisma.DailyChallengeUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload>
+            args: Prisma.UserScoreUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
           }
           deleteMany: {
-            args: Prisma.DailyChallengeDeleteManyArgs<ExtArgs>
+            args: Prisma.UserScoreDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.DailyChallengeUpdateManyArgs<ExtArgs>
+            args: Prisma.UserScoreUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.DailyChallengeUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload>[]
+            args: Prisma.UserScoreUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>[]
           }
           upsert: {
-            args: Prisma.DailyChallengeUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DailyChallengePayload>
+            args: Prisma.UserScoreUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserScorePayload>
           }
           aggregate: {
-            args: Prisma.DailyChallengeAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateDailyChallenge>
+            args: Prisma.UserScoreAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserScore>
           }
           groupBy: {
-            args: Prisma.DailyChallengeGroupByArgs<ExtArgs>
-            result: $Utils.Optional<DailyChallengeGroupByOutputType>[]
+            args: Prisma.UserScoreGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserScoreGroupByOutputType>[]
           }
           count: {
-            args: Prisma.DailyChallengeCountArgs<ExtArgs>
-            result: $Utils.Optional<DailyChallengeCountAggregateOutputType> | number
+            args: Prisma.UserScoreCountArgs<ExtArgs>
+            result: $Utils.Optional<UserScoreCountAggregateOutputType> | number
+          }
+        }
+      }
+      Challenge: {
+        payload: Prisma.$ChallengePayload<ExtArgs>
+        fields: Prisma.ChallengeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChallengeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChallengeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload>
+          }
+          findFirst: {
+            args: Prisma.ChallengeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChallengeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload>
+          }
+          findMany: {
+            args: Prisma.ChallengeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload>[]
+          }
+          create: {
+            args: Prisma.ChallengeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload>
+          }
+          createMany: {
+            args: Prisma.ChallengeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChallengeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload>[]
+          }
+          delete: {
+            args: Prisma.ChallengeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload>
+          }
+          update: {
+            args: Prisma.ChallengeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload>
+          }
+          deleteMany: {
+            args: Prisma.ChallengeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChallengeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChallengeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload>[]
+          }
+          upsert: {
+            args: Prisma.ChallengeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengePayload>
+          }
+          aggregate: {
+            args: Prisma.ChallengeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChallenge>
+          }
+          groupBy: {
+            args: Prisma.ChallengeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChallengeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChallengeCountArgs<ExtArgs>
+            result: $Utils.Optional<ChallengeCountAggregateOutputType> | number
+          }
+        }
+      }
+      ChallengeParticipant: {
+        payload: Prisma.$ChallengeParticipantPayload<ExtArgs>
+        fields: Prisma.ChallengeParticipantFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChallengeParticipantFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChallengeParticipantFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload>
+          }
+          findFirst: {
+            args: Prisma.ChallengeParticipantFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChallengeParticipantFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload>
+          }
+          findMany: {
+            args: Prisma.ChallengeParticipantFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload>[]
+          }
+          create: {
+            args: Prisma.ChallengeParticipantCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload>
+          }
+          createMany: {
+            args: Prisma.ChallengeParticipantCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChallengeParticipantCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload>[]
+          }
+          delete: {
+            args: Prisma.ChallengeParticipantDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload>
+          }
+          update: {
+            args: Prisma.ChallengeParticipantUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload>
+          }
+          deleteMany: {
+            args: Prisma.ChallengeParticipantDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChallengeParticipantUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChallengeParticipantUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload>[]
+          }
+          upsert: {
+            args: Prisma.ChallengeParticipantUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChallengeParticipantPayload>
+          }
+          aggregate: {
+            args: Prisma.ChallengeParticipantAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChallengeParticipant>
+          }
+          groupBy: {
+            args: Prisma.ChallengeParticipantGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChallengeParticipantGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChallengeParticipantCountArgs<ExtArgs>
+            result: $Utils.Optional<ChallengeParticipantCountAggregateOutputType> | number
           }
         }
       }
@@ -962,7 +1142,9 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     post?: PostOmit
     comment?: CommentOmit
-    dailyChallenge?: DailyChallengeOmit
+    userScore?: UserScoreOmit
+    challenge?: ChallengeOmit
+    challengeParticipant?: ChallengeParticipantOmit
   }
 
   /* Types for Logging */
@@ -1066,6 +1248,37 @@ export namespace Prisma {
    */
   export type PostCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentWhereInput
+  }
+
+
+  /**
+   * Count Type ChallengeCountOutputType
+   */
+
+  export type ChallengeCountOutputType = {
+    participants: number
+  }
+
+  export type ChallengeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    participants?: boolean | ChallengeCountOutputTypeCountParticipantsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ChallengeCountOutputType without action
+   */
+  export type ChallengeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeCountOutputType
+     */
+    select?: ChallengeCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ChallengeCountOutputType without action
+   */
+  export type ChallengeCountOutputTypeCountParticipantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChallengeParticipantWhereInput
   }
 
 
@@ -3249,379 +3462,351 @@ export namespace Prisma {
 
 
   /**
-   * Model DailyChallenge
+   * Model UserScore
    */
 
-  export type AggregateDailyChallenge = {
-    _count: DailyChallengeCountAggregateOutputType | null
-    _avg: DailyChallengeAvgAggregateOutputType | null
-    _sum: DailyChallengeSumAggregateOutputType | null
-    _min: DailyChallengeMinAggregateOutputType | null
-    _max: DailyChallengeMaxAggregateOutputType | null
+  export type AggregateUserScore = {
+    _count: UserScoreCountAggregateOutputType | null
+    _avg: UserScoreAvgAggregateOutputType | null
+    _sum: UserScoreSumAggregateOutputType | null
+    _min: UserScoreMinAggregateOutputType | null
+    _max: UserScoreMaxAggregateOutputType | null
   }
 
-  export type DailyChallengeAvgAggregateOutputType = {
-    xpReward: number | null
+  export type UserScoreAvgAggregateOutputType = {
+    xp: number | null
+    level: number | null
   }
 
-  export type DailyChallengeSumAggregateOutputType = {
-    xpReward: number | null
+  export type UserScoreSumAggregateOutputType = {
+    xp: number | null
+    level: number | null
   }
 
-  export type DailyChallengeMinAggregateOutputType = {
-    id: string | null
-    date: Date | null
-    title: string | null
-    description: string | null
-    xpReward: number | null
+  export type UserScoreMinAggregateOutputType = {
+    userId: string | null
+    xp: number | null
+    level: number | null
   }
 
-  export type DailyChallengeMaxAggregateOutputType = {
-    id: string | null
-    date: Date | null
-    title: string | null
-    description: string | null
-    xpReward: number | null
+  export type UserScoreMaxAggregateOutputType = {
+    userId: string | null
+    xp: number | null
+    level: number | null
   }
 
-  export type DailyChallengeCountAggregateOutputType = {
-    id: number
-    date: number
-    title: number
-    description: number
-    xpReward: number
-    participants: number
+  export type UserScoreCountAggregateOutputType = {
+    userId: number
+    xp: number
+    level: number
     _all: number
   }
 
 
-  export type DailyChallengeAvgAggregateInputType = {
-    xpReward?: true
+  export type UserScoreAvgAggregateInputType = {
+    xp?: true
+    level?: true
   }
 
-  export type DailyChallengeSumAggregateInputType = {
-    xpReward?: true
+  export type UserScoreSumAggregateInputType = {
+    xp?: true
+    level?: true
   }
 
-  export type DailyChallengeMinAggregateInputType = {
-    id?: true
-    date?: true
-    title?: true
-    description?: true
-    xpReward?: true
+  export type UserScoreMinAggregateInputType = {
+    userId?: true
+    xp?: true
+    level?: true
   }
 
-  export type DailyChallengeMaxAggregateInputType = {
-    id?: true
-    date?: true
-    title?: true
-    description?: true
-    xpReward?: true
+  export type UserScoreMaxAggregateInputType = {
+    userId?: true
+    xp?: true
+    level?: true
   }
 
-  export type DailyChallengeCountAggregateInputType = {
-    id?: true
-    date?: true
-    title?: true
-    description?: true
-    xpReward?: true
-    participants?: true
+  export type UserScoreCountAggregateInputType = {
+    userId?: true
+    xp?: true
+    level?: true
     _all?: true
   }
 
-  export type DailyChallengeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which DailyChallenge to aggregate.
+     * Filter which UserScore to aggregate.
      */
-    where?: DailyChallengeWhereInput
+    where?: UserScoreWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of DailyChallenges to fetch.
+     * Determine the order of UserScores to fetch.
      */
-    orderBy?: DailyChallengeOrderByWithRelationInput | DailyChallengeOrderByWithRelationInput[]
+    orderBy?: UserScoreOrderByWithRelationInput | UserScoreOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: DailyChallengeWhereUniqueInput
+    cursor?: UserScoreWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` DailyChallenges from the position of the cursor.
+     * Take `±n` UserScores from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` DailyChallenges.
+     * Skip the first `n` UserScores.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned DailyChallenges
+     * Count returned UserScores
     **/
-    _count?: true | DailyChallengeCountAggregateInputType
+    _count?: true | UserScoreCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: DailyChallengeAvgAggregateInputType
+    _avg?: UserScoreAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: DailyChallengeSumAggregateInputType
+    _sum?: UserScoreSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: DailyChallengeMinAggregateInputType
+    _min?: UserScoreMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: DailyChallengeMaxAggregateInputType
+    _max?: UserScoreMaxAggregateInputType
   }
 
-  export type GetDailyChallengeAggregateType<T extends DailyChallengeAggregateArgs> = {
-        [P in keyof T & keyof AggregateDailyChallenge]: P extends '_count' | 'count'
+  export type GetUserScoreAggregateType<T extends UserScoreAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserScore]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateDailyChallenge[P]>
-      : GetScalarType<T[P], AggregateDailyChallenge[P]>
+        : GetScalarType<T[P], AggregateUserScore[P]>
+      : GetScalarType<T[P], AggregateUserScore[P]>
   }
 
 
 
 
-  export type DailyChallengeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DailyChallengeWhereInput
-    orderBy?: DailyChallengeOrderByWithAggregationInput | DailyChallengeOrderByWithAggregationInput[]
-    by: DailyChallengeScalarFieldEnum[] | DailyChallengeScalarFieldEnum
-    having?: DailyChallengeScalarWhereWithAggregatesInput
+  export type UserScoreGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserScoreWhereInput
+    orderBy?: UserScoreOrderByWithAggregationInput | UserScoreOrderByWithAggregationInput[]
+    by: UserScoreScalarFieldEnum[] | UserScoreScalarFieldEnum
+    having?: UserScoreScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: DailyChallengeCountAggregateInputType | true
-    _avg?: DailyChallengeAvgAggregateInputType
-    _sum?: DailyChallengeSumAggregateInputType
-    _min?: DailyChallengeMinAggregateInputType
-    _max?: DailyChallengeMaxAggregateInputType
+    _count?: UserScoreCountAggregateInputType | true
+    _avg?: UserScoreAvgAggregateInputType
+    _sum?: UserScoreSumAggregateInputType
+    _min?: UserScoreMinAggregateInputType
+    _max?: UserScoreMaxAggregateInputType
   }
 
-  export type DailyChallengeGroupByOutputType = {
-    id: string
-    date: Date
-    title: string
-    description: string
-    xpReward: number
-    participants: string[]
-    _count: DailyChallengeCountAggregateOutputType | null
-    _avg: DailyChallengeAvgAggregateOutputType | null
-    _sum: DailyChallengeSumAggregateOutputType | null
-    _min: DailyChallengeMinAggregateOutputType | null
-    _max: DailyChallengeMaxAggregateOutputType | null
+  export type UserScoreGroupByOutputType = {
+    userId: string
+    xp: number
+    level: number
+    _count: UserScoreCountAggregateOutputType | null
+    _avg: UserScoreAvgAggregateOutputType | null
+    _sum: UserScoreSumAggregateOutputType | null
+    _min: UserScoreMinAggregateOutputType | null
+    _max: UserScoreMaxAggregateOutputType | null
   }
 
-  type GetDailyChallengeGroupByPayload<T extends DailyChallengeGroupByArgs> = Prisma.PrismaPromise<
+  type GetUserScoreGroupByPayload<T extends UserScoreGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<DailyChallengeGroupByOutputType, T['by']> &
+      PickEnumerable<UserScoreGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof DailyChallengeGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof UserScoreGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], DailyChallengeGroupByOutputType[P]>
-            : GetScalarType<T[P], DailyChallengeGroupByOutputType[P]>
+              : GetScalarType<T[P], UserScoreGroupByOutputType[P]>
+            : GetScalarType<T[P], UserScoreGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type DailyChallengeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    date?: boolean
-    title?: boolean
-    description?: boolean
-    xpReward?: boolean
-    participants?: boolean
-  }, ExtArgs["result"]["dailyChallenge"]>
+  export type UserScoreSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    xp?: boolean
+    level?: boolean
+  }, ExtArgs["result"]["userScore"]>
 
-  export type DailyChallengeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    date?: boolean
-    title?: boolean
-    description?: boolean
-    xpReward?: boolean
-    participants?: boolean
-  }, ExtArgs["result"]["dailyChallenge"]>
+  export type UserScoreSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    xp?: boolean
+    level?: boolean
+  }, ExtArgs["result"]["userScore"]>
 
-  export type DailyChallengeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    date?: boolean
-    title?: boolean
-    description?: boolean
-    xpReward?: boolean
-    participants?: boolean
-  }, ExtArgs["result"]["dailyChallenge"]>
+  export type UserScoreSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    xp?: boolean
+    level?: boolean
+  }, ExtArgs["result"]["userScore"]>
 
-  export type DailyChallengeSelectScalar = {
-    id?: boolean
-    date?: boolean
-    title?: boolean
-    description?: boolean
-    xpReward?: boolean
-    participants?: boolean
+  export type UserScoreSelectScalar = {
+    userId?: boolean
+    xp?: boolean
+    level?: boolean
   }
 
-  export type DailyChallengeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "title" | "description" | "xpReward" | "participants", ExtArgs["result"]["dailyChallenge"]>
+  export type UserScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "xp" | "level", ExtArgs["result"]["userScore"]>
 
-  export type $DailyChallengePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "DailyChallenge"
+  export type $UserScorePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserScore"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
-      id: string
-      date: Date
-      title: string
-      description: string
-      xpReward: number
-      participants: string[]
-    }, ExtArgs["result"]["dailyChallenge"]>
+      userId: string
+      xp: number
+      level: number
+    }, ExtArgs["result"]["userScore"]>
     composites: {}
   }
 
-  type DailyChallengeGetPayload<S extends boolean | null | undefined | DailyChallengeDefaultArgs> = $Result.GetResult<Prisma.$DailyChallengePayload, S>
+  type UserScoreGetPayload<S extends boolean | null | undefined | UserScoreDefaultArgs> = $Result.GetResult<Prisma.$UserScorePayload, S>
 
-  type DailyChallengeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<DailyChallengeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: DailyChallengeCountAggregateInputType | true
+  type UserScoreCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserScoreFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserScoreCountAggregateInputType | true
     }
 
-  export interface DailyChallengeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DailyChallenge'], meta: { name: 'DailyChallenge' } }
+  export interface UserScoreDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserScore'], meta: { name: 'UserScore' } }
     /**
-     * Find zero or one DailyChallenge that matches the filter.
-     * @param {DailyChallengeFindUniqueArgs} args - Arguments to find a DailyChallenge
+     * Find zero or one UserScore that matches the filter.
+     * @param {UserScoreFindUniqueArgs} args - Arguments to find a UserScore
      * @example
-     * // Get one DailyChallenge
-     * const dailyChallenge = await prisma.dailyChallenge.findUnique({
+     * // Get one UserScore
+     * const userScore = await prisma.userScore.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends DailyChallengeFindUniqueArgs>(args: SelectSubset<T, DailyChallengeFindUniqueArgs<ExtArgs>>): Prisma__DailyChallengeClient<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends UserScoreFindUniqueArgs>(args: SelectSubset<T, UserScoreFindUniqueArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one DailyChallenge that matches the filter or throw an error with `error.code='P2025'`
+     * Find one UserScore that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {DailyChallengeFindUniqueOrThrowArgs} args - Arguments to find a DailyChallenge
+     * @param {UserScoreFindUniqueOrThrowArgs} args - Arguments to find a UserScore
      * @example
-     * // Get one DailyChallenge
-     * const dailyChallenge = await prisma.dailyChallenge.findUniqueOrThrow({
+     * // Get one UserScore
+     * const userScore = await prisma.userScore.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends DailyChallengeFindUniqueOrThrowArgs>(args: SelectSubset<T, DailyChallengeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DailyChallengeClient<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends UserScoreFindUniqueOrThrowArgs>(args: SelectSubset<T, UserScoreFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first DailyChallenge that matches the filter.
+     * Find the first UserScore that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DailyChallengeFindFirstArgs} args - Arguments to find a DailyChallenge
+     * @param {UserScoreFindFirstArgs} args - Arguments to find a UserScore
      * @example
-     * // Get one DailyChallenge
-     * const dailyChallenge = await prisma.dailyChallenge.findFirst({
+     * // Get one UserScore
+     * const userScore = await prisma.userScore.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends DailyChallengeFindFirstArgs>(args?: SelectSubset<T, DailyChallengeFindFirstArgs<ExtArgs>>): Prisma__DailyChallengeClient<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends UserScoreFindFirstArgs>(args?: SelectSubset<T, UserScoreFindFirstArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first DailyChallenge that matches the filter or
+     * Find the first UserScore that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DailyChallengeFindFirstOrThrowArgs} args - Arguments to find a DailyChallenge
+     * @param {UserScoreFindFirstOrThrowArgs} args - Arguments to find a UserScore
      * @example
-     * // Get one DailyChallenge
-     * const dailyChallenge = await prisma.dailyChallenge.findFirstOrThrow({
+     * // Get one UserScore
+     * const userScore = await prisma.userScore.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends DailyChallengeFindFirstOrThrowArgs>(args?: SelectSubset<T, DailyChallengeFindFirstOrThrowArgs<ExtArgs>>): Prisma__DailyChallengeClient<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends UserScoreFindFirstOrThrowArgs>(args?: SelectSubset<T, UserScoreFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more DailyChallenges that matches the filter.
+     * Find zero or more UserScores that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DailyChallengeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {UserScoreFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all DailyChallenges
-     * const dailyChallenges = await prisma.dailyChallenge.findMany()
+     * // Get all UserScores
+     * const userScores = await prisma.userScore.findMany()
      * 
-     * // Get first 10 DailyChallenges
-     * const dailyChallenges = await prisma.dailyChallenge.findMany({ take: 10 })
+     * // Get first 10 UserScores
+     * const userScores = await prisma.userScore.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const dailyChallengeWithIdOnly = await prisma.dailyChallenge.findMany({ select: { id: true } })
+     * // Only select the `userId`
+     * const userScoreWithUserIdOnly = await prisma.userScore.findMany({ select: { userId: true } })
      * 
      */
-    findMany<T extends DailyChallengeFindManyArgs>(args?: SelectSubset<T, DailyChallengeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends UserScoreFindManyArgs>(args?: SelectSubset<T, UserScoreFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a DailyChallenge.
-     * @param {DailyChallengeCreateArgs} args - Arguments to create a DailyChallenge.
+     * Create a UserScore.
+     * @param {UserScoreCreateArgs} args - Arguments to create a UserScore.
      * @example
-     * // Create one DailyChallenge
-     * const DailyChallenge = await prisma.dailyChallenge.create({
+     * // Create one UserScore
+     * const UserScore = await prisma.userScore.create({
      *   data: {
-     *     // ... data to create a DailyChallenge
+     *     // ... data to create a UserScore
      *   }
      * })
      * 
      */
-    create<T extends DailyChallengeCreateArgs>(args: SelectSubset<T, DailyChallengeCreateArgs<ExtArgs>>): Prisma__DailyChallengeClient<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends UserScoreCreateArgs>(args: SelectSubset<T, UserScoreCreateArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many DailyChallenges.
-     * @param {DailyChallengeCreateManyArgs} args - Arguments to create many DailyChallenges.
+     * Create many UserScores.
+     * @param {UserScoreCreateManyArgs} args - Arguments to create many UserScores.
      * @example
-     * // Create many DailyChallenges
-     * const dailyChallenge = await prisma.dailyChallenge.createMany({
+     * // Create many UserScores
+     * const userScore = await prisma.userScore.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends DailyChallengeCreateManyArgs>(args?: SelectSubset<T, DailyChallengeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends UserScoreCreateManyArgs>(args?: SelectSubset<T, UserScoreCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many DailyChallenges and returns the data saved in the database.
-     * @param {DailyChallengeCreateManyAndReturnArgs} args - Arguments to create many DailyChallenges.
+     * Create many UserScores and returns the data saved in the database.
+     * @param {UserScoreCreateManyAndReturnArgs} args - Arguments to create many UserScores.
      * @example
-     * // Create many DailyChallenges
-     * const dailyChallenge = await prisma.dailyChallenge.createManyAndReturn({
+     * // Create many UserScores
+     * const userScore = await prisma.userScore.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many DailyChallenges and only return the `id`
-     * const dailyChallengeWithIdOnly = await prisma.dailyChallenge.createManyAndReturn({
-     *   select: { id: true },
+     * // Create many UserScores and only return the `userId`
+     * const userScoreWithUserIdOnly = await prisma.userScore.createManyAndReturn({
+     *   select: { userId: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -3630,28 +3815,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends DailyChallengeCreateManyAndReturnArgs>(args?: SelectSubset<T, DailyChallengeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends UserScoreCreateManyAndReturnArgs>(args?: SelectSubset<T, UserScoreCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a DailyChallenge.
-     * @param {DailyChallengeDeleteArgs} args - Arguments to delete one DailyChallenge.
+     * Delete a UserScore.
+     * @param {UserScoreDeleteArgs} args - Arguments to delete one UserScore.
      * @example
-     * // Delete one DailyChallenge
-     * const DailyChallenge = await prisma.dailyChallenge.delete({
+     * // Delete one UserScore
+     * const UserScore = await prisma.userScore.delete({
      *   where: {
-     *     // ... filter to delete one DailyChallenge
+     *     // ... filter to delete one UserScore
      *   }
      * })
      * 
      */
-    delete<T extends DailyChallengeDeleteArgs>(args: SelectSubset<T, DailyChallengeDeleteArgs<ExtArgs>>): Prisma__DailyChallengeClient<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends UserScoreDeleteArgs>(args: SelectSubset<T, UserScoreDeleteArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one DailyChallenge.
-     * @param {DailyChallengeUpdateArgs} args - Arguments to update one DailyChallenge.
+     * Update one UserScore.
+     * @param {UserScoreUpdateArgs} args - Arguments to update one UserScore.
      * @example
-     * // Update one DailyChallenge
-     * const dailyChallenge = await prisma.dailyChallenge.update({
+     * // Update one UserScore
+     * const userScore = await prisma.userScore.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3661,30 +3846,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends DailyChallengeUpdateArgs>(args: SelectSubset<T, DailyChallengeUpdateArgs<ExtArgs>>): Prisma__DailyChallengeClient<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends UserScoreUpdateArgs>(args: SelectSubset<T, UserScoreUpdateArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more DailyChallenges.
-     * @param {DailyChallengeDeleteManyArgs} args - Arguments to filter DailyChallenges to delete.
+     * Delete zero or more UserScores.
+     * @param {UserScoreDeleteManyArgs} args - Arguments to filter UserScores to delete.
      * @example
-     * // Delete a few DailyChallenges
-     * const { count } = await prisma.dailyChallenge.deleteMany({
+     * // Delete a few UserScores
+     * const { count } = await prisma.userScore.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends DailyChallengeDeleteManyArgs>(args?: SelectSubset<T, DailyChallengeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends UserScoreDeleteManyArgs>(args?: SelectSubset<T, UserScoreDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more DailyChallenges.
+     * Update zero or more UserScores.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DailyChallengeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {UserScoreUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many DailyChallenges
-     * const dailyChallenge = await prisma.dailyChallenge.updateMany({
+     * // Update many UserScores
+     * const userScore = await prisma.userScore.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3694,14 +3879,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends DailyChallengeUpdateManyArgs>(args: SelectSubset<T, DailyChallengeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends UserScoreUpdateManyArgs>(args: SelectSubset<T, UserScoreUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more DailyChallenges and returns the data updated in the database.
-     * @param {DailyChallengeUpdateManyAndReturnArgs} args - Arguments to update many DailyChallenges.
+     * Update zero or more UserScores and returns the data updated in the database.
+     * @param {UserScoreUpdateManyAndReturnArgs} args - Arguments to update many UserScores.
      * @example
-     * // Update many DailyChallenges
-     * const dailyChallenge = await prisma.dailyChallenge.updateManyAndReturn({
+     * // Update many UserScores
+     * const userScore = await prisma.userScore.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3710,9 +3895,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more DailyChallenges and only return the `id`
-     * const dailyChallengeWithIdOnly = await prisma.dailyChallenge.updateManyAndReturn({
-     *   select: { id: true },
+     * // Update zero or more UserScores and only return the `userId`
+     * const userScoreWithUserIdOnly = await prisma.userScore.updateManyAndReturn({
+     *   select: { userId: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3724,56 +3909,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends DailyChallengeUpdateManyAndReturnArgs>(args: SelectSubset<T, DailyChallengeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends UserScoreUpdateManyAndReturnArgs>(args: SelectSubset<T, UserScoreUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one DailyChallenge.
-     * @param {DailyChallengeUpsertArgs} args - Arguments to update or create a DailyChallenge.
+     * Create or update one UserScore.
+     * @param {UserScoreUpsertArgs} args - Arguments to update or create a UserScore.
      * @example
-     * // Update or create a DailyChallenge
-     * const dailyChallenge = await prisma.dailyChallenge.upsert({
+     * // Update or create a UserScore
+     * const userScore = await prisma.userScore.upsert({
      *   create: {
-     *     // ... data to create a DailyChallenge
+     *     // ... data to create a UserScore
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the DailyChallenge we want to update
+     *     // ... the filter for the UserScore we want to update
      *   }
      * })
      */
-    upsert<T extends DailyChallengeUpsertArgs>(args: SelectSubset<T, DailyChallengeUpsertArgs<ExtArgs>>): Prisma__DailyChallengeClient<$Result.GetResult<Prisma.$DailyChallengePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends UserScoreUpsertArgs>(args: SelectSubset<T, UserScoreUpsertArgs<ExtArgs>>): Prisma__UserScoreClient<$Result.GetResult<Prisma.$UserScorePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of DailyChallenges.
+     * Count the number of UserScores.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DailyChallengeCountArgs} args - Arguments to filter DailyChallenges to count.
+     * @param {UserScoreCountArgs} args - Arguments to filter UserScores to count.
      * @example
-     * // Count the number of DailyChallenges
-     * const count = await prisma.dailyChallenge.count({
+     * // Count the number of UserScores
+     * const count = await prisma.userScore.count({
      *   where: {
-     *     // ... the filter for the DailyChallenges we want to count
+     *     // ... the filter for the UserScores we want to count
      *   }
      * })
     **/
-    count<T extends DailyChallengeCountArgs>(
-      args?: Subset<T, DailyChallengeCountArgs>,
+    count<T extends UserScoreCountArgs>(
+      args?: Subset<T, UserScoreCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], DailyChallengeCountAggregateOutputType>
+          : GetScalarType<T['select'], UserScoreCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a DailyChallenge.
+     * Allows you to perform aggregations operations on a UserScore.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DailyChallengeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {UserScoreAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -3793,13 +3978,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends DailyChallengeAggregateArgs>(args: Subset<T, DailyChallengeAggregateArgs>): Prisma.PrismaPromise<GetDailyChallengeAggregateType<T>>
+    aggregate<T extends UserScoreAggregateArgs>(args: Subset<T, UserScoreAggregateArgs>): Prisma.PrismaPromise<GetUserScoreAggregateType<T>>
 
     /**
-     * Group by DailyChallenge.
+     * Group by UserScore.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {DailyChallengeGroupByArgs} args - Group by arguments.
+     * @param {UserScoreGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -3814,14 +3999,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends DailyChallengeGroupByArgs,
+      T extends UserScoreGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: DailyChallengeGroupByArgs['orderBy'] }
-        : { orderBy?: DailyChallengeGroupByArgs['orderBy'] },
+        ? { orderBy: UserScoreGroupByArgs['orderBy'] }
+        : { orderBy?: UserScoreGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -3870,20 +4055,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, DailyChallengeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDailyChallengeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, UserScoreGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserScoreGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the DailyChallenge model
+   * Fields of the UserScore model
    */
-  readonly fields: DailyChallengeFieldRefs;
+  readonly fields: UserScoreFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for DailyChallenge.
+   * The delegate class that acts as a "Promise-like" for UserScore.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__DailyChallengeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__UserScoreClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3911,378 +4096,2597 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the DailyChallenge model
+   * Fields of the UserScore model
    */
-  interface DailyChallengeFieldRefs {
-    readonly id: FieldRef<"DailyChallenge", 'String'>
-    readonly date: FieldRef<"DailyChallenge", 'DateTime'>
-    readonly title: FieldRef<"DailyChallenge", 'String'>
-    readonly description: FieldRef<"DailyChallenge", 'String'>
-    readonly xpReward: FieldRef<"DailyChallenge", 'Int'>
-    readonly participants: FieldRef<"DailyChallenge", 'String[]'>
+  interface UserScoreFieldRefs {
+    readonly userId: FieldRef<"UserScore", 'String'>
+    readonly xp: FieldRef<"UserScore", 'Int'>
+    readonly level: FieldRef<"UserScore", 'Int'>
   }
     
 
   // Custom InputTypes
   /**
-   * DailyChallenge findUnique
+   * UserScore findUnique
    */
-  export type DailyChallengeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelect<ExtArgs> | null
+    select?: UserScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * Filter, which DailyChallenge to fetch.
+     * Filter, which UserScore to fetch.
      */
-    where: DailyChallengeWhereUniqueInput
+    where: UserScoreWhereUniqueInput
   }
 
   /**
-   * DailyChallenge findUniqueOrThrow
+   * UserScore findUniqueOrThrow
    */
-  export type DailyChallengeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelect<ExtArgs> | null
+    select?: UserScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * Filter, which DailyChallenge to fetch.
+     * Filter, which UserScore to fetch.
      */
-    where: DailyChallengeWhereUniqueInput
+    where: UserScoreWhereUniqueInput
   }
 
   /**
-   * DailyChallenge findFirst
+   * UserScore findFirst
    */
-  export type DailyChallengeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelect<ExtArgs> | null
+    select?: UserScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * Filter, which DailyChallenge to fetch.
+     * Filter, which UserScore to fetch.
      */
-    where?: DailyChallengeWhereInput
+    where?: UserScoreWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of DailyChallenges to fetch.
+     * Determine the order of UserScores to fetch.
      */
-    orderBy?: DailyChallengeOrderByWithRelationInput | DailyChallengeOrderByWithRelationInput[]
+    orderBy?: UserScoreOrderByWithRelationInput | UserScoreOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for DailyChallenges.
+     * Sets the position for searching for UserScores.
      */
-    cursor?: DailyChallengeWhereUniqueInput
+    cursor?: UserScoreWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` DailyChallenges from the position of the cursor.
+     * Take `±n` UserScores from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` DailyChallenges.
+     * Skip the first `n` UserScores.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of DailyChallenges.
+     * Filter by unique combinations of UserScores.
      */
-    distinct?: DailyChallengeScalarFieldEnum | DailyChallengeScalarFieldEnum[]
+    distinct?: UserScoreScalarFieldEnum | UserScoreScalarFieldEnum[]
   }
 
   /**
-   * DailyChallenge findFirstOrThrow
+   * UserScore findFirstOrThrow
    */
-  export type DailyChallengeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelect<ExtArgs> | null
+    select?: UserScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * Filter, which DailyChallenge to fetch.
+     * Filter, which UserScore to fetch.
      */
-    where?: DailyChallengeWhereInput
+    where?: UserScoreWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of DailyChallenges to fetch.
+     * Determine the order of UserScores to fetch.
      */
-    orderBy?: DailyChallengeOrderByWithRelationInput | DailyChallengeOrderByWithRelationInput[]
+    orderBy?: UserScoreOrderByWithRelationInput | UserScoreOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for DailyChallenges.
+     * Sets the position for searching for UserScores.
      */
-    cursor?: DailyChallengeWhereUniqueInput
+    cursor?: UserScoreWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` DailyChallenges from the position of the cursor.
+     * Take `±n` UserScores from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` DailyChallenges.
+     * Skip the first `n` UserScores.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of DailyChallenges.
+     * Filter by unique combinations of UserScores.
      */
-    distinct?: DailyChallengeScalarFieldEnum | DailyChallengeScalarFieldEnum[]
+    distinct?: UserScoreScalarFieldEnum | UserScoreScalarFieldEnum[]
   }
 
   /**
-   * DailyChallenge findMany
+   * UserScore findMany
    */
-  export type DailyChallengeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelect<ExtArgs> | null
+    select?: UserScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * Filter, which DailyChallenges to fetch.
+     * Filter, which UserScores to fetch.
      */
-    where?: DailyChallengeWhereInput
+    where?: UserScoreWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of DailyChallenges to fetch.
+     * Determine the order of UserScores to fetch.
      */
-    orderBy?: DailyChallengeOrderByWithRelationInput | DailyChallengeOrderByWithRelationInput[]
+    orderBy?: UserScoreOrderByWithRelationInput | UserScoreOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing DailyChallenges.
+     * Sets the position for listing UserScores.
      */
-    cursor?: DailyChallengeWhereUniqueInput
+    cursor?: UserScoreWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` DailyChallenges from the position of the cursor.
+     * Take `±n` UserScores from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` DailyChallenges.
+     * Skip the first `n` UserScores.
      */
     skip?: number
-    distinct?: DailyChallengeScalarFieldEnum | DailyChallengeScalarFieldEnum[]
+    distinct?: UserScoreScalarFieldEnum | UserScoreScalarFieldEnum[]
   }
 
   /**
-   * DailyChallenge create
+   * UserScore create
    */
-  export type DailyChallengeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelect<ExtArgs> | null
+    select?: UserScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * The data needed to create a DailyChallenge.
+     * The data needed to create a UserScore.
      */
-    data: XOR<DailyChallengeCreateInput, DailyChallengeUncheckedCreateInput>
+    data: XOR<UserScoreCreateInput, UserScoreUncheckedCreateInput>
   }
 
   /**
-   * DailyChallenge createMany
+   * UserScore createMany
    */
-  export type DailyChallengeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many DailyChallenges.
+     * The data used to create many UserScores.
      */
-    data: DailyChallengeCreateManyInput | DailyChallengeCreateManyInput[]
+    data: UserScoreCreateManyInput | UserScoreCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * DailyChallenge createManyAndReturn
+   * UserScore createManyAndReturn
    */
-  export type DailyChallengeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelectCreateManyAndReturn<ExtArgs> | null
+    select?: UserScoreSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * The data used to create many DailyChallenges.
+     * The data used to create many UserScores.
      */
-    data: DailyChallengeCreateManyInput | DailyChallengeCreateManyInput[]
+    data: UserScoreCreateManyInput | UserScoreCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * DailyChallenge update
+   * UserScore update
    */
-  export type DailyChallengeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelect<ExtArgs> | null
+    select?: UserScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * The data needed to update a DailyChallenge.
+     * The data needed to update a UserScore.
      */
-    data: XOR<DailyChallengeUpdateInput, DailyChallengeUncheckedUpdateInput>
+    data: XOR<UserScoreUpdateInput, UserScoreUncheckedUpdateInput>
     /**
-     * Choose, which DailyChallenge to update.
+     * Choose, which UserScore to update.
      */
-    where: DailyChallengeWhereUniqueInput
+    where: UserScoreWhereUniqueInput
   }
 
   /**
-   * DailyChallenge updateMany
+   * UserScore updateMany
    */
-  export type DailyChallengeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update DailyChallenges.
+     * The data used to update UserScores.
      */
-    data: XOR<DailyChallengeUpdateManyMutationInput, DailyChallengeUncheckedUpdateManyInput>
+    data: XOR<UserScoreUpdateManyMutationInput, UserScoreUncheckedUpdateManyInput>
     /**
-     * Filter which DailyChallenges to update
+     * Filter which UserScores to update
      */
-    where?: DailyChallengeWhereInput
+    where?: UserScoreWhereInput
     /**
-     * Limit how many DailyChallenges to update.
+     * Limit how many UserScores to update.
      */
     limit?: number
   }
 
   /**
-   * DailyChallenge updateManyAndReturn
+   * UserScore updateManyAndReturn
    */
-  export type DailyChallengeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: UserScoreSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * The data used to update DailyChallenges.
+     * The data used to update UserScores.
      */
-    data: XOR<DailyChallengeUpdateManyMutationInput, DailyChallengeUncheckedUpdateManyInput>
+    data: XOR<UserScoreUpdateManyMutationInput, UserScoreUncheckedUpdateManyInput>
     /**
-     * Filter which DailyChallenges to update
+     * Filter which UserScores to update
      */
-    where?: DailyChallengeWhereInput
+    where?: UserScoreWhereInput
     /**
-     * Limit how many DailyChallenges to update.
+     * Limit how many UserScores to update.
      */
     limit?: number
   }
 
   /**
-   * DailyChallenge upsert
+   * UserScore upsert
    */
-  export type DailyChallengeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelect<ExtArgs> | null
+    select?: UserScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * The filter to search for the DailyChallenge to update in case it exists.
+     * The filter to search for the UserScore to update in case it exists.
      */
-    where: DailyChallengeWhereUniqueInput
+    where: UserScoreWhereUniqueInput
     /**
-     * In case the DailyChallenge found by the `where` argument doesn't exist, create a new DailyChallenge with this data.
+     * In case the UserScore found by the `where` argument doesn't exist, create a new UserScore with this data.
      */
-    create: XOR<DailyChallengeCreateInput, DailyChallengeUncheckedCreateInput>
+    create: XOR<UserScoreCreateInput, UserScoreUncheckedCreateInput>
     /**
-     * In case the DailyChallenge was found with the provided `where` argument, update it with this data.
+     * In case the UserScore was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<DailyChallengeUpdateInput, DailyChallengeUncheckedUpdateInput>
+    update: XOR<UserScoreUpdateInput, UserScoreUncheckedUpdateInput>
   }
 
   /**
-   * DailyChallenge delete
+   * UserScore delete
    */
-  export type DailyChallengeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelect<ExtArgs> | null
+    select?: UserScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
     /**
-     * Filter which DailyChallenge to delete.
+     * Filter which UserScore to delete.
      */
-    where: DailyChallengeWhereUniqueInput
+    where: UserScoreWhereUniqueInput
   }
 
   /**
-   * DailyChallenge deleteMany
+   * UserScore deleteMany
    */
-  export type DailyChallengeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which DailyChallenges to delete
+     * Filter which UserScores to delete
      */
-    where?: DailyChallengeWhereInput
+    where?: UserScoreWhereInput
     /**
-     * Limit how many DailyChallenges to delete.
+     * Limit how many UserScores to delete.
      */
     limit?: number
   }
 
   /**
-   * DailyChallenge without action
+   * UserScore without action
    */
-  export type DailyChallengeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserScoreDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DailyChallenge
+     * Select specific fields to fetch from the UserScore
      */
-    select?: DailyChallengeSelect<ExtArgs> | null
+    select?: UserScoreSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the DailyChallenge
+     * Omit specific fields from the UserScore
      */
-    omit?: DailyChallengeOmit<ExtArgs> | null
+    omit?: UserScoreOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Challenge
+   */
+
+  export type AggregateChallenge = {
+    _count: ChallengeCountAggregateOutputType | null
+    _avg: ChallengeAvgAggregateOutputType | null
+    _sum: ChallengeSumAggregateOutputType | null
+    _min: ChallengeMinAggregateOutputType | null
+    _max: ChallengeMaxAggregateOutputType | null
+  }
+
+  export type ChallengeAvgAggregateOutputType = {
+    xpReward: number | null
+  }
+
+  export type ChallengeSumAggregateOutputType = {
+    xpReward: number | null
+  }
+
+  export type ChallengeMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    xpReward: number | null
+    startDate: Date | null
+    endDate: Date | null
+  }
+
+  export type ChallengeMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    xpReward: number | null
+    startDate: Date | null
+    endDate: Date | null
+  }
+
+  export type ChallengeCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    xpReward: number
+    startDate: number
+    endDate: number
+    _all: number
+  }
+
+
+  export type ChallengeAvgAggregateInputType = {
+    xpReward?: true
+  }
+
+  export type ChallengeSumAggregateInputType = {
+    xpReward?: true
+  }
+
+  export type ChallengeMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    xpReward?: true
+    startDate?: true
+    endDate?: true
+  }
+
+  export type ChallengeMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    xpReward?: true
+    startDate?: true
+    endDate?: true
+  }
+
+  export type ChallengeCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    xpReward?: true
+    startDate?: true
+    endDate?: true
+    _all?: true
+  }
+
+  export type ChallengeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Challenge to aggregate.
+     */
+    where?: ChallengeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Challenges to fetch.
+     */
+    orderBy?: ChallengeOrderByWithRelationInput | ChallengeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChallengeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Challenges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Challenges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Challenges
+    **/
+    _count?: true | ChallengeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ChallengeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ChallengeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChallengeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChallengeMaxAggregateInputType
+  }
+
+  export type GetChallengeAggregateType<T extends ChallengeAggregateArgs> = {
+        [P in keyof T & keyof AggregateChallenge]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChallenge[P]>
+      : GetScalarType<T[P], AggregateChallenge[P]>
+  }
+
+
+
+
+  export type ChallengeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChallengeWhereInput
+    orderBy?: ChallengeOrderByWithAggregationInput | ChallengeOrderByWithAggregationInput[]
+    by: ChallengeScalarFieldEnum[] | ChallengeScalarFieldEnum
+    having?: ChallengeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChallengeCountAggregateInputType | true
+    _avg?: ChallengeAvgAggregateInputType
+    _sum?: ChallengeSumAggregateInputType
+    _min?: ChallengeMinAggregateInputType
+    _max?: ChallengeMaxAggregateInputType
+  }
+
+  export type ChallengeGroupByOutputType = {
+    id: string
+    title: string
+    description: string
+    xpReward: number
+    startDate: Date
+    endDate: Date
+    _count: ChallengeCountAggregateOutputType | null
+    _avg: ChallengeAvgAggregateOutputType | null
+    _sum: ChallengeSumAggregateOutputType | null
+    _min: ChallengeMinAggregateOutputType | null
+    _max: ChallengeMaxAggregateOutputType | null
+  }
+
+  type GetChallengeGroupByPayload<T extends ChallengeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChallengeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChallengeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChallengeGroupByOutputType[P]>
+            : GetScalarType<T[P], ChallengeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChallengeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    xpReward?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    participants?: boolean | Challenge$participantsArgs<ExtArgs>
+    _count?: boolean | ChallengeCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["challenge"]>
+
+  export type ChallengeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    xpReward?: boolean
+    startDate?: boolean
+    endDate?: boolean
+  }, ExtArgs["result"]["challenge"]>
+
+  export type ChallengeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    xpReward?: boolean
+    startDate?: boolean
+    endDate?: boolean
+  }, ExtArgs["result"]["challenge"]>
+
+  export type ChallengeSelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    xpReward?: boolean
+    startDate?: boolean
+    endDate?: boolean
+  }
+
+  export type ChallengeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "xpReward" | "startDate" | "endDate", ExtArgs["result"]["challenge"]>
+  export type ChallengeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    participants?: boolean | Challenge$participantsArgs<ExtArgs>
+    _count?: boolean | ChallengeCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ChallengeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ChallengeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ChallengePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Challenge"
+    objects: {
+      participants: Prisma.$ChallengeParticipantPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      description: string
+      xpReward: number
+      startDate: Date
+      endDate: Date
+    }, ExtArgs["result"]["challenge"]>
+    composites: {}
+  }
+
+  type ChallengeGetPayload<S extends boolean | null | undefined | ChallengeDefaultArgs> = $Result.GetResult<Prisma.$ChallengePayload, S>
+
+  type ChallengeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChallengeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChallengeCountAggregateInputType | true
+    }
+
+  export interface ChallengeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Challenge'], meta: { name: 'Challenge' } }
+    /**
+     * Find zero or one Challenge that matches the filter.
+     * @param {ChallengeFindUniqueArgs} args - Arguments to find a Challenge
+     * @example
+     * // Get one Challenge
+     * const challenge = await prisma.challenge.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChallengeFindUniqueArgs>(args: SelectSubset<T, ChallengeFindUniqueArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Challenge that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChallengeFindUniqueOrThrowArgs} args - Arguments to find a Challenge
+     * @example
+     * // Get one Challenge
+     * const challenge = await prisma.challenge.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChallengeFindUniqueOrThrowArgs>(args: SelectSubset<T, ChallengeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Challenge that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeFindFirstArgs} args - Arguments to find a Challenge
+     * @example
+     * // Get one Challenge
+     * const challenge = await prisma.challenge.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChallengeFindFirstArgs>(args?: SelectSubset<T, ChallengeFindFirstArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Challenge that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeFindFirstOrThrowArgs} args - Arguments to find a Challenge
+     * @example
+     * // Get one Challenge
+     * const challenge = await prisma.challenge.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChallengeFindFirstOrThrowArgs>(args?: SelectSubset<T, ChallengeFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Challenges that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Challenges
+     * const challenges = await prisma.challenge.findMany()
+     * 
+     * // Get first 10 Challenges
+     * const challenges = await prisma.challenge.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const challengeWithIdOnly = await prisma.challenge.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChallengeFindManyArgs>(args?: SelectSubset<T, ChallengeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Challenge.
+     * @param {ChallengeCreateArgs} args - Arguments to create a Challenge.
+     * @example
+     * // Create one Challenge
+     * const Challenge = await prisma.challenge.create({
+     *   data: {
+     *     // ... data to create a Challenge
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChallengeCreateArgs>(args: SelectSubset<T, ChallengeCreateArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Challenges.
+     * @param {ChallengeCreateManyArgs} args - Arguments to create many Challenges.
+     * @example
+     * // Create many Challenges
+     * const challenge = await prisma.challenge.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChallengeCreateManyArgs>(args?: SelectSubset<T, ChallengeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Challenges and returns the data saved in the database.
+     * @param {ChallengeCreateManyAndReturnArgs} args - Arguments to create many Challenges.
+     * @example
+     * // Create many Challenges
+     * const challenge = await prisma.challenge.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Challenges and only return the `id`
+     * const challengeWithIdOnly = await prisma.challenge.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChallengeCreateManyAndReturnArgs>(args?: SelectSubset<T, ChallengeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Challenge.
+     * @param {ChallengeDeleteArgs} args - Arguments to delete one Challenge.
+     * @example
+     * // Delete one Challenge
+     * const Challenge = await prisma.challenge.delete({
+     *   where: {
+     *     // ... filter to delete one Challenge
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChallengeDeleteArgs>(args: SelectSubset<T, ChallengeDeleteArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Challenge.
+     * @param {ChallengeUpdateArgs} args - Arguments to update one Challenge.
+     * @example
+     * // Update one Challenge
+     * const challenge = await prisma.challenge.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChallengeUpdateArgs>(args: SelectSubset<T, ChallengeUpdateArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Challenges.
+     * @param {ChallengeDeleteManyArgs} args - Arguments to filter Challenges to delete.
+     * @example
+     * // Delete a few Challenges
+     * const { count } = await prisma.challenge.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChallengeDeleteManyArgs>(args?: SelectSubset<T, ChallengeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Challenges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Challenges
+     * const challenge = await prisma.challenge.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChallengeUpdateManyArgs>(args: SelectSubset<T, ChallengeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Challenges and returns the data updated in the database.
+     * @param {ChallengeUpdateManyAndReturnArgs} args - Arguments to update many Challenges.
+     * @example
+     * // Update many Challenges
+     * const challenge = await prisma.challenge.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Challenges and only return the `id`
+     * const challengeWithIdOnly = await prisma.challenge.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChallengeUpdateManyAndReturnArgs>(args: SelectSubset<T, ChallengeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Challenge.
+     * @param {ChallengeUpsertArgs} args - Arguments to update or create a Challenge.
+     * @example
+     * // Update or create a Challenge
+     * const challenge = await prisma.challenge.upsert({
+     *   create: {
+     *     // ... data to create a Challenge
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Challenge we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChallengeUpsertArgs>(args: SelectSubset<T, ChallengeUpsertArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Challenges.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeCountArgs} args - Arguments to filter Challenges to count.
+     * @example
+     * // Count the number of Challenges
+     * const count = await prisma.challenge.count({
+     *   where: {
+     *     // ... the filter for the Challenges we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChallengeCountArgs>(
+      args?: Subset<T, ChallengeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChallengeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Challenge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChallengeAggregateArgs>(args: Subset<T, ChallengeAggregateArgs>): Prisma.PrismaPromise<GetChallengeAggregateType<T>>
+
+    /**
+     * Group by Challenge.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChallengeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChallengeGroupByArgs['orderBy'] }
+        : { orderBy?: ChallengeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChallengeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChallengeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Challenge model
+   */
+  readonly fields: ChallengeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Challenge.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChallengeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    participants<T extends Challenge$participantsArgs<ExtArgs> = {}>(args?: Subset<T, Challenge$participantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Challenge model
+   */
+  interface ChallengeFieldRefs {
+    readonly id: FieldRef<"Challenge", 'String'>
+    readonly title: FieldRef<"Challenge", 'String'>
+    readonly description: FieldRef<"Challenge", 'String'>
+    readonly xpReward: FieldRef<"Challenge", 'Int'>
+    readonly startDate: FieldRef<"Challenge", 'DateTime'>
+    readonly endDate: FieldRef<"Challenge", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Challenge findUnique
+   */
+  export type ChallengeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeInclude<ExtArgs> | null
+    /**
+     * Filter, which Challenge to fetch.
+     */
+    where: ChallengeWhereUniqueInput
+  }
+
+  /**
+   * Challenge findUniqueOrThrow
+   */
+  export type ChallengeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeInclude<ExtArgs> | null
+    /**
+     * Filter, which Challenge to fetch.
+     */
+    where: ChallengeWhereUniqueInput
+  }
+
+  /**
+   * Challenge findFirst
+   */
+  export type ChallengeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeInclude<ExtArgs> | null
+    /**
+     * Filter, which Challenge to fetch.
+     */
+    where?: ChallengeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Challenges to fetch.
+     */
+    orderBy?: ChallengeOrderByWithRelationInput | ChallengeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Challenges.
+     */
+    cursor?: ChallengeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Challenges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Challenges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Challenges.
+     */
+    distinct?: ChallengeScalarFieldEnum | ChallengeScalarFieldEnum[]
+  }
+
+  /**
+   * Challenge findFirstOrThrow
+   */
+  export type ChallengeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeInclude<ExtArgs> | null
+    /**
+     * Filter, which Challenge to fetch.
+     */
+    where?: ChallengeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Challenges to fetch.
+     */
+    orderBy?: ChallengeOrderByWithRelationInput | ChallengeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Challenges.
+     */
+    cursor?: ChallengeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Challenges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Challenges.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Challenges.
+     */
+    distinct?: ChallengeScalarFieldEnum | ChallengeScalarFieldEnum[]
+  }
+
+  /**
+   * Challenge findMany
+   */
+  export type ChallengeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeInclude<ExtArgs> | null
+    /**
+     * Filter, which Challenges to fetch.
+     */
+    where?: ChallengeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Challenges to fetch.
+     */
+    orderBy?: ChallengeOrderByWithRelationInput | ChallengeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Challenges.
+     */
+    cursor?: ChallengeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Challenges from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Challenges.
+     */
+    skip?: number
+    distinct?: ChallengeScalarFieldEnum | ChallengeScalarFieldEnum[]
+  }
+
+  /**
+   * Challenge create
+   */
+  export type ChallengeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Challenge.
+     */
+    data: XOR<ChallengeCreateInput, ChallengeUncheckedCreateInput>
+  }
+
+  /**
+   * Challenge createMany
+   */
+  export type ChallengeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Challenges.
+     */
+    data: ChallengeCreateManyInput | ChallengeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Challenge createManyAndReturn
+   */
+  export type ChallengeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * The data used to create many Challenges.
+     */
+    data: ChallengeCreateManyInput | ChallengeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Challenge update
+   */
+  export type ChallengeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Challenge.
+     */
+    data: XOR<ChallengeUpdateInput, ChallengeUncheckedUpdateInput>
+    /**
+     * Choose, which Challenge to update.
+     */
+    where: ChallengeWhereUniqueInput
+  }
+
+  /**
+   * Challenge updateMany
+   */
+  export type ChallengeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Challenges.
+     */
+    data: XOR<ChallengeUpdateManyMutationInput, ChallengeUncheckedUpdateManyInput>
+    /**
+     * Filter which Challenges to update
+     */
+    where?: ChallengeWhereInput
+    /**
+     * Limit how many Challenges to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Challenge updateManyAndReturn
+   */
+  export type ChallengeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * The data used to update Challenges.
+     */
+    data: XOR<ChallengeUpdateManyMutationInput, ChallengeUncheckedUpdateManyInput>
+    /**
+     * Filter which Challenges to update
+     */
+    where?: ChallengeWhereInput
+    /**
+     * Limit how many Challenges to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Challenge upsert
+   */
+  export type ChallengeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Challenge to update in case it exists.
+     */
+    where: ChallengeWhereUniqueInput
+    /**
+     * In case the Challenge found by the `where` argument doesn't exist, create a new Challenge with this data.
+     */
+    create: XOR<ChallengeCreateInput, ChallengeUncheckedCreateInput>
+    /**
+     * In case the Challenge was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChallengeUpdateInput, ChallengeUncheckedUpdateInput>
+  }
+
+  /**
+   * Challenge delete
+   */
+  export type ChallengeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeInclude<ExtArgs> | null
+    /**
+     * Filter which Challenge to delete.
+     */
+    where: ChallengeWhereUniqueInput
+  }
+
+  /**
+   * Challenge deleteMany
+   */
+  export type ChallengeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Challenges to delete
+     */
+    where?: ChallengeWhereInput
+    /**
+     * Limit how many Challenges to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Challenge.participants
+   */
+  export type Challenge$participantsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
+    where?: ChallengeParticipantWhereInput
+    orderBy?: ChallengeParticipantOrderByWithRelationInput | ChallengeParticipantOrderByWithRelationInput[]
+    cursor?: ChallengeParticipantWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChallengeParticipantScalarFieldEnum | ChallengeParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * Challenge without action
+   */
+  export type ChallengeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Challenge
+     */
+    select?: ChallengeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Challenge
+     */
+    omit?: ChallengeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ChallengeParticipant
+   */
+
+  export type AggregateChallengeParticipant = {
+    _count: ChallengeParticipantCountAggregateOutputType | null
+    _avg: ChallengeParticipantAvgAggregateOutputType | null
+    _sum: ChallengeParticipantSumAggregateOutputType | null
+    _min: ChallengeParticipantMinAggregateOutputType | null
+    _max: ChallengeParticipantMaxAggregateOutputType | null
+  }
+
+  export type ChallengeParticipantAvgAggregateOutputType = {
+    progress: number | null
+  }
+
+  export type ChallengeParticipantSumAggregateOutputType = {
+    progress: number | null
+  }
+
+  export type ChallengeParticipantMinAggregateOutputType = {
+    id: string | null
+    challengeId: string | null
+    userId: string | null
+    progress: number | null
+    completed: boolean | null
+    joinedAt: Date | null
+  }
+
+  export type ChallengeParticipantMaxAggregateOutputType = {
+    id: string | null
+    challengeId: string | null
+    userId: string | null
+    progress: number | null
+    completed: boolean | null
+    joinedAt: Date | null
+  }
+
+  export type ChallengeParticipantCountAggregateOutputType = {
+    id: number
+    challengeId: number
+    userId: number
+    progress: number
+    completed: number
+    joinedAt: number
+    _all: number
+  }
+
+
+  export type ChallengeParticipantAvgAggregateInputType = {
+    progress?: true
+  }
+
+  export type ChallengeParticipantSumAggregateInputType = {
+    progress?: true
+  }
+
+  export type ChallengeParticipantMinAggregateInputType = {
+    id?: true
+    challengeId?: true
+    userId?: true
+    progress?: true
+    completed?: true
+    joinedAt?: true
+  }
+
+  export type ChallengeParticipantMaxAggregateInputType = {
+    id?: true
+    challengeId?: true
+    userId?: true
+    progress?: true
+    completed?: true
+    joinedAt?: true
+  }
+
+  export type ChallengeParticipantCountAggregateInputType = {
+    id?: true
+    challengeId?: true
+    userId?: true
+    progress?: true
+    completed?: true
+    joinedAt?: true
+    _all?: true
+  }
+
+  export type ChallengeParticipantAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChallengeParticipant to aggregate.
+     */
+    where?: ChallengeParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChallengeParticipants to fetch.
+     */
+    orderBy?: ChallengeParticipantOrderByWithRelationInput | ChallengeParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChallengeParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChallengeParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChallengeParticipants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ChallengeParticipants
+    **/
+    _count?: true | ChallengeParticipantCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ChallengeParticipantAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ChallengeParticipantSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChallengeParticipantMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChallengeParticipantMaxAggregateInputType
+  }
+
+  export type GetChallengeParticipantAggregateType<T extends ChallengeParticipantAggregateArgs> = {
+        [P in keyof T & keyof AggregateChallengeParticipant]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChallengeParticipant[P]>
+      : GetScalarType<T[P], AggregateChallengeParticipant[P]>
+  }
+
+
+
+
+  export type ChallengeParticipantGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChallengeParticipantWhereInput
+    orderBy?: ChallengeParticipantOrderByWithAggregationInput | ChallengeParticipantOrderByWithAggregationInput[]
+    by: ChallengeParticipantScalarFieldEnum[] | ChallengeParticipantScalarFieldEnum
+    having?: ChallengeParticipantScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChallengeParticipantCountAggregateInputType | true
+    _avg?: ChallengeParticipantAvgAggregateInputType
+    _sum?: ChallengeParticipantSumAggregateInputType
+    _min?: ChallengeParticipantMinAggregateInputType
+    _max?: ChallengeParticipantMaxAggregateInputType
+  }
+
+  export type ChallengeParticipantGroupByOutputType = {
+    id: string
+    challengeId: string
+    userId: string
+    progress: number
+    completed: boolean
+    joinedAt: Date
+    _count: ChallengeParticipantCountAggregateOutputType | null
+    _avg: ChallengeParticipantAvgAggregateOutputType | null
+    _sum: ChallengeParticipantSumAggregateOutputType | null
+    _min: ChallengeParticipantMinAggregateOutputType | null
+    _max: ChallengeParticipantMaxAggregateOutputType | null
+  }
+
+  type GetChallengeParticipantGroupByPayload<T extends ChallengeParticipantGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChallengeParticipantGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChallengeParticipantGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChallengeParticipantGroupByOutputType[P]>
+            : GetScalarType<T[P], ChallengeParticipantGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChallengeParticipantSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    challengeId?: boolean
+    userId?: boolean
+    progress?: boolean
+    completed?: boolean
+    joinedAt?: boolean
+    challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["challengeParticipant"]>
+
+  export type ChallengeParticipantSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    challengeId?: boolean
+    userId?: boolean
+    progress?: boolean
+    completed?: boolean
+    joinedAt?: boolean
+    challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["challengeParticipant"]>
+
+  export type ChallengeParticipantSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    challengeId?: boolean
+    userId?: boolean
+    progress?: boolean
+    completed?: boolean
+    joinedAt?: boolean
+    challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["challengeParticipant"]>
+
+  export type ChallengeParticipantSelectScalar = {
+    id?: boolean
+    challengeId?: boolean
+    userId?: boolean
+    progress?: boolean
+    completed?: boolean
+    joinedAt?: boolean
+  }
+
+  export type ChallengeParticipantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "challengeId" | "userId" | "progress" | "completed" | "joinedAt", ExtArgs["result"]["challengeParticipant"]>
+  export type ChallengeParticipantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+  }
+  export type ChallengeParticipantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+  }
+  export type ChallengeParticipantIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    challenge?: boolean | ChallengeDefaultArgs<ExtArgs>
+  }
+
+  export type $ChallengeParticipantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ChallengeParticipant"
+    objects: {
+      challenge: Prisma.$ChallengePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      challengeId: string
+      userId: string
+      progress: number
+      completed: boolean
+      joinedAt: Date
+    }, ExtArgs["result"]["challengeParticipant"]>
+    composites: {}
+  }
+
+  type ChallengeParticipantGetPayload<S extends boolean | null | undefined | ChallengeParticipantDefaultArgs> = $Result.GetResult<Prisma.$ChallengeParticipantPayload, S>
+
+  type ChallengeParticipantCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChallengeParticipantFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChallengeParticipantCountAggregateInputType | true
+    }
+
+  export interface ChallengeParticipantDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ChallengeParticipant'], meta: { name: 'ChallengeParticipant' } }
+    /**
+     * Find zero or one ChallengeParticipant that matches the filter.
+     * @param {ChallengeParticipantFindUniqueArgs} args - Arguments to find a ChallengeParticipant
+     * @example
+     * // Get one ChallengeParticipant
+     * const challengeParticipant = await prisma.challengeParticipant.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChallengeParticipantFindUniqueArgs>(args: SelectSubset<T, ChallengeParticipantFindUniqueArgs<ExtArgs>>): Prisma__ChallengeParticipantClient<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ChallengeParticipant that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChallengeParticipantFindUniqueOrThrowArgs} args - Arguments to find a ChallengeParticipant
+     * @example
+     * // Get one ChallengeParticipant
+     * const challengeParticipant = await prisma.challengeParticipant.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChallengeParticipantFindUniqueOrThrowArgs>(args: SelectSubset<T, ChallengeParticipantFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChallengeParticipantClient<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChallengeParticipant that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeParticipantFindFirstArgs} args - Arguments to find a ChallengeParticipant
+     * @example
+     * // Get one ChallengeParticipant
+     * const challengeParticipant = await prisma.challengeParticipant.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChallengeParticipantFindFirstArgs>(args?: SelectSubset<T, ChallengeParticipantFindFirstArgs<ExtArgs>>): Prisma__ChallengeParticipantClient<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChallengeParticipant that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeParticipantFindFirstOrThrowArgs} args - Arguments to find a ChallengeParticipant
+     * @example
+     * // Get one ChallengeParticipant
+     * const challengeParticipant = await prisma.challengeParticipant.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChallengeParticipantFindFirstOrThrowArgs>(args?: SelectSubset<T, ChallengeParticipantFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChallengeParticipantClient<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ChallengeParticipants that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeParticipantFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ChallengeParticipants
+     * const challengeParticipants = await prisma.challengeParticipant.findMany()
+     * 
+     * // Get first 10 ChallengeParticipants
+     * const challengeParticipants = await prisma.challengeParticipant.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const challengeParticipantWithIdOnly = await prisma.challengeParticipant.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChallengeParticipantFindManyArgs>(args?: SelectSubset<T, ChallengeParticipantFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ChallengeParticipant.
+     * @param {ChallengeParticipantCreateArgs} args - Arguments to create a ChallengeParticipant.
+     * @example
+     * // Create one ChallengeParticipant
+     * const ChallengeParticipant = await prisma.challengeParticipant.create({
+     *   data: {
+     *     // ... data to create a ChallengeParticipant
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChallengeParticipantCreateArgs>(args: SelectSubset<T, ChallengeParticipantCreateArgs<ExtArgs>>): Prisma__ChallengeParticipantClient<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ChallengeParticipants.
+     * @param {ChallengeParticipantCreateManyArgs} args - Arguments to create many ChallengeParticipants.
+     * @example
+     * // Create many ChallengeParticipants
+     * const challengeParticipant = await prisma.challengeParticipant.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChallengeParticipantCreateManyArgs>(args?: SelectSubset<T, ChallengeParticipantCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ChallengeParticipants and returns the data saved in the database.
+     * @param {ChallengeParticipantCreateManyAndReturnArgs} args - Arguments to create many ChallengeParticipants.
+     * @example
+     * // Create many ChallengeParticipants
+     * const challengeParticipant = await prisma.challengeParticipant.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ChallengeParticipants and only return the `id`
+     * const challengeParticipantWithIdOnly = await prisma.challengeParticipant.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChallengeParticipantCreateManyAndReturnArgs>(args?: SelectSubset<T, ChallengeParticipantCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ChallengeParticipant.
+     * @param {ChallengeParticipantDeleteArgs} args - Arguments to delete one ChallengeParticipant.
+     * @example
+     * // Delete one ChallengeParticipant
+     * const ChallengeParticipant = await prisma.challengeParticipant.delete({
+     *   where: {
+     *     // ... filter to delete one ChallengeParticipant
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChallengeParticipantDeleteArgs>(args: SelectSubset<T, ChallengeParticipantDeleteArgs<ExtArgs>>): Prisma__ChallengeParticipantClient<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ChallengeParticipant.
+     * @param {ChallengeParticipantUpdateArgs} args - Arguments to update one ChallengeParticipant.
+     * @example
+     * // Update one ChallengeParticipant
+     * const challengeParticipant = await prisma.challengeParticipant.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChallengeParticipantUpdateArgs>(args: SelectSubset<T, ChallengeParticipantUpdateArgs<ExtArgs>>): Prisma__ChallengeParticipantClient<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ChallengeParticipants.
+     * @param {ChallengeParticipantDeleteManyArgs} args - Arguments to filter ChallengeParticipants to delete.
+     * @example
+     * // Delete a few ChallengeParticipants
+     * const { count } = await prisma.challengeParticipant.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChallengeParticipantDeleteManyArgs>(args?: SelectSubset<T, ChallengeParticipantDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChallengeParticipants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeParticipantUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ChallengeParticipants
+     * const challengeParticipant = await prisma.challengeParticipant.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChallengeParticipantUpdateManyArgs>(args: SelectSubset<T, ChallengeParticipantUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChallengeParticipants and returns the data updated in the database.
+     * @param {ChallengeParticipantUpdateManyAndReturnArgs} args - Arguments to update many ChallengeParticipants.
+     * @example
+     * // Update many ChallengeParticipants
+     * const challengeParticipant = await prisma.challengeParticipant.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ChallengeParticipants and only return the `id`
+     * const challengeParticipantWithIdOnly = await prisma.challengeParticipant.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChallengeParticipantUpdateManyAndReturnArgs>(args: SelectSubset<T, ChallengeParticipantUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ChallengeParticipant.
+     * @param {ChallengeParticipantUpsertArgs} args - Arguments to update or create a ChallengeParticipant.
+     * @example
+     * // Update or create a ChallengeParticipant
+     * const challengeParticipant = await prisma.challengeParticipant.upsert({
+     *   create: {
+     *     // ... data to create a ChallengeParticipant
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ChallengeParticipant we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChallengeParticipantUpsertArgs>(args: SelectSubset<T, ChallengeParticipantUpsertArgs<ExtArgs>>): Prisma__ChallengeParticipantClient<$Result.GetResult<Prisma.$ChallengeParticipantPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ChallengeParticipants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeParticipantCountArgs} args - Arguments to filter ChallengeParticipants to count.
+     * @example
+     * // Count the number of ChallengeParticipants
+     * const count = await prisma.challengeParticipant.count({
+     *   where: {
+     *     // ... the filter for the ChallengeParticipants we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChallengeParticipantCountArgs>(
+      args?: Subset<T, ChallengeParticipantCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChallengeParticipantCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ChallengeParticipant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeParticipantAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChallengeParticipantAggregateArgs>(args: Subset<T, ChallengeParticipantAggregateArgs>): Prisma.PrismaPromise<GetChallengeParticipantAggregateType<T>>
+
+    /**
+     * Group by ChallengeParticipant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChallengeParticipantGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChallengeParticipantGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChallengeParticipantGroupByArgs['orderBy'] }
+        : { orderBy?: ChallengeParticipantGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChallengeParticipantGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChallengeParticipantGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ChallengeParticipant model
+   */
+  readonly fields: ChallengeParticipantFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ChallengeParticipant.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChallengeParticipantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    challenge<T extends ChallengeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ChallengeDefaultArgs<ExtArgs>>): Prisma__ChallengeClient<$Result.GetResult<Prisma.$ChallengePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ChallengeParticipant model
+   */
+  interface ChallengeParticipantFieldRefs {
+    readonly id: FieldRef<"ChallengeParticipant", 'String'>
+    readonly challengeId: FieldRef<"ChallengeParticipant", 'String'>
+    readonly userId: FieldRef<"ChallengeParticipant", 'String'>
+    readonly progress: FieldRef<"ChallengeParticipant", 'Int'>
+    readonly completed: FieldRef<"ChallengeParticipant", 'Boolean'>
+    readonly joinedAt: FieldRef<"ChallengeParticipant", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ChallengeParticipant findUnique
+   */
+  export type ChallengeParticipantFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which ChallengeParticipant to fetch.
+     */
+    where: ChallengeParticipantWhereUniqueInput
+  }
+
+  /**
+   * ChallengeParticipant findUniqueOrThrow
+   */
+  export type ChallengeParticipantFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which ChallengeParticipant to fetch.
+     */
+    where: ChallengeParticipantWhereUniqueInput
+  }
+
+  /**
+   * ChallengeParticipant findFirst
+   */
+  export type ChallengeParticipantFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which ChallengeParticipant to fetch.
+     */
+    where?: ChallengeParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChallengeParticipants to fetch.
+     */
+    orderBy?: ChallengeParticipantOrderByWithRelationInput | ChallengeParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChallengeParticipants.
+     */
+    cursor?: ChallengeParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChallengeParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChallengeParticipants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChallengeParticipants.
+     */
+    distinct?: ChallengeParticipantScalarFieldEnum | ChallengeParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * ChallengeParticipant findFirstOrThrow
+   */
+  export type ChallengeParticipantFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which ChallengeParticipant to fetch.
+     */
+    where?: ChallengeParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChallengeParticipants to fetch.
+     */
+    orderBy?: ChallengeParticipantOrderByWithRelationInput | ChallengeParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChallengeParticipants.
+     */
+    cursor?: ChallengeParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChallengeParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChallengeParticipants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChallengeParticipants.
+     */
+    distinct?: ChallengeParticipantScalarFieldEnum | ChallengeParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * ChallengeParticipant findMany
+   */
+  export type ChallengeParticipantFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
+    /**
+     * Filter, which ChallengeParticipants to fetch.
+     */
+    where?: ChallengeParticipantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChallengeParticipants to fetch.
+     */
+    orderBy?: ChallengeParticipantOrderByWithRelationInput | ChallengeParticipantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ChallengeParticipants.
+     */
+    cursor?: ChallengeParticipantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChallengeParticipants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChallengeParticipants.
+     */
+    skip?: number
+    distinct?: ChallengeParticipantScalarFieldEnum | ChallengeParticipantScalarFieldEnum[]
+  }
+
+  /**
+   * ChallengeParticipant create
+   */
+  export type ChallengeParticipantCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ChallengeParticipant.
+     */
+    data: XOR<ChallengeParticipantCreateInput, ChallengeParticipantUncheckedCreateInput>
+  }
+
+  /**
+   * ChallengeParticipant createMany
+   */
+  export type ChallengeParticipantCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ChallengeParticipants.
+     */
+    data: ChallengeParticipantCreateManyInput | ChallengeParticipantCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ChallengeParticipant createManyAndReturn
+   */
+  export type ChallengeParticipantCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * The data used to create many ChallengeParticipants.
+     */
+    data: ChallengeParticipantCreateManyInput | ChallengeParticipantCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChallengeParticipant update
+   */
+  export type ChallengeParticipantUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ChallengeParticipant.
+     */
+    data: XOR<ChallengeParticipantUpdateInput, ChallengeParticipantUncheckedUpdateInput>
+    /**
+     * Choose, which ChallengeParticipant to update.
+     */
+    where: ChallengeParticipantWhereUniqueInput
+  }
+
+  /**
+   * ChallengeParticipant updateMany
+   */
+  export type ChallengeParticipantUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ChallengeParticipants.
+     */
+    data: XOR<ChallengeParticipantUpdateManyMutationInput, ChallengeParticipantUncheckedUpdateManyInput>
+    /**
+     * Filter which ChallengeParticipants to update
+     */
+    where?: ChallengeParticipantWhereInput
+    /**
+     * Limit how many ChallengeParticipants to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChallengeParticipant updateManyAndReturn
+   */
+  export type ChallengeParticipantUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * The data used to update ChallengeParticipants.
+     */
+    data: XOR<ChallengeParticipantUpdateManyMutationInput, ChallengeParticipantUncheckedUpdateManyInput>
+    /**
+     * Filter which ChallengeParticipants to update
+     */
+    where?: ChallengeParticipantWhereInput
+    /**
+     * Limit how many ChallengeParticipants to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChallengeParticipant upsert
+   */
+  export type ChallengeParticipantUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ChallengeParticipant to update in case it exists.
+     */
+    where: ChallengeParticipantWhereUniqueInput
+    /**
+     * In case the ChallengeParticipant found by the `where` argument doesn't exist, create a new ChallengeParticipant with this data.
+     */
+    create: XOR<ChallengeParticipantCreateInput, ChallengeParticipantUncheckedCreateInput>
+    /**
+     * In case the ChallengeParticipant was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChallengeParticipantUpdateInput, ChallengeParticipantUncheckedUpdateInput>
+  }
+
+  /**
+   * ChallengeParticipant delete
+   */
+  export type ChallengeParticipantDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
+    /**
+     * Filter which ChallengeParticipant to delete.
+     */
+    where: ChallengeParticipantWhereUniqueInput
+  }
+
+  /**
+   * ChallengeParticipant deleteMany
+   */
+  export type ChallengeParticipantDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChallengeParticipants to delete
+     */
+    where?: ChallengeParticipantWhereInput
+    /**
+     * Limit how many ChallengeParticipants to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChallengeParticipant without action
+   */
+  export type ChallengeParticipantDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChallengeParticipant
+     */
+    select?: ChallengeParticipantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChallengeParticipant
+     */
+    omit?: ChallengeParticipantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChallengeParticipantInclude<ExtArgs> | null
   }
 
 
@@ -4323,16 +6727,37 @@ export namespace Prisma {
   export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
 
 
-  export const DailyChallengeScalarFieldEnum: {
+  export const UserScoreScalarFieldEnum: {
+    userId: 'userId',
+    xp: 'xp',
+    level: 'level'
+  };
+
+  export type UserScoreScalarFieldEnum = (typeof UserScoreScalarFieldEnum)[keyof typeof UserScoreScalarFieldEnum]
+
+
+  export const ChallengeScalarFieldEnum: {
     id: 'id',
-    date: 'date',
     title: 'title',
     description: 'description',
     xpReward: 'xpReward',
-    participants: 'participants'
+    startDate: 'startDate',
+    endDate: 'endDate'
   };
 
-  export type DailyChallengeScalarFieldEnum = (typeof DailyChallengeScalarFieldEnum)[keyof typeof DailyChallengeScalarFieldEnum]
+  export type ChallengeScalarFieldEnum = (typeof ChallengeScalarFieldEnum)[keyof typeof ChallengeScalarFieldEnum]
+
+
+  export const ChallengeParticipantScalarFieldEnum: {
+    id: 'id',
+    challengeId: 'challengeId',
+    userId: 'userId',
+    progress: 'progress',
+    completed: 'completed',
+    joinedAt: 'joinedAt'
+  };
+
+  export type ChallengeParticipantScalarFieldEnum = (typeof ChallengeParticipantScalarFieldEnum)[keyof typeof ChallengeParticipantScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4403,6 +6828,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -4540,63 +6972,173 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
   }
 
-  export type DailyChallengeWhereInput = {
-    AND?: DailyChallengeWhereInput | DailyChallengeWhereInput[]
-    OR?: DailyChallengeWhereInput[]
-    NOT?: DailyChallengeWhereInput | DailyChallengeWhereInput[]
-    id?: StringFilter<"DailyChallenge"> | string
-    date?: DateTimeFilter<"DailyChallenge"> | Date | string
-    title?: StringFilter<"DailyChallenge"> | string
-    description?: StringFilter<"DailyChallenge"> | string
-    xpReward?: IntFilter<"DailyChallenge"> | number
-    participants?: StringNullableListFilter<"DailyChallenge">
+  export type UserScoreWhereInput = {
+    AND?: UserScoreWhereInput | UserScoreWhereInput[]
+    OR?: UserScoreWhereInput[]
+    NOT?: UserScoreWhereInput | UserScoreWhereInput[]
+    userId?: StringFilter<"UserScore"> | string
+    xp?: IntFilter<"UserScore"> | number
+    level?: IntFilter<"UserScore"> | number
   }
 
-  export type DailyChallengeOrderByWithRelationInput = {
+  export type UserScoreOrderByWithRelationInput = {
+    userId?: SortOrder
+    xp?: SortOrder
+    level?: SortOrder
+  }
+
+  export type UserScoreWhereUniqueInput = Prisma.AtLeast<{
+    userId?: string
+    AND?: UserScoreWhereInput | UserScoreWhereInput[]
+    OR?: UserScoreWhereInput[]
+    NOT?: UserScoreWhereInput | UserScoreWhereInput[]
+    xp?: IntFilter<"UserScore"> | number
+    level?: IntFilter<"UserScore"> | number
+  }, "userId">
+
+  export type UserScoreOrderByWithAggregationInput = {
+    userId?: SortOrder
+    xp?: SortOrder
+    level?: SortOrder
+    _count?: UserScoreCountOrderByAggregateInput
+    _avg?: UserScoreAvgOrderByAggregateInput
+    _max?: UserScoreMaxOrderByAggregateInput
+    _min?: UserScoreMinOrderByAggregateInput
+    _sum?: UserScoreSumOrderByAggregateInput
+  }
+
+  export type UserScoreScalarWhereWithAggregatesInput = {
+    AND?: UserScoreScalarWhereWithAggregatesInput | UserScoreScalarWhereWithAggregatesInput[]
+    OR?: UserScoreScalarWhereWithAggregatesInput[]
+    NOT?: UserScoreScalarWhereWithAggregatesInput | UserScoreScalarWhereWithAggregatesInput[]
+    userId?: StringWithAggregatesFilter<"UserScore"> | string
+    xp?: IntWithAggregatesFilter<"UserScore"> | number
+    level?: IntWithAggregatesFilter<"UserScore"> | number
+  }
+
+  export type ChallengeWhereInput = {
+    AND?: ChallengeWhereInput | ChallengeWhereInput[]
+    OR?: ChallengeWhereInput[]
+    NOT?: ChallengeWhereInput | ChallengeWhereInput[]
+    id?: StringFilter<"Challenge"> | string
+    title?: StringFilter<"Challenge"> | string
+    description?: StringFilter<"Challenge"> | string
+    xpReward?: IntFilter<"Challenge"> | number
+    startDate?: DateTimeFilter<"Challenge"> | Date | string
+    endDate?: DateTimeFilter<"Challenge"> | Date | string
+    participants?: ChallengeParticipantListRelationFilter
+  }
+
+  export type ChallengeOrderByWithRelationInput = {
     id?: SortOrder
-    date?: SortOrder
     title?: SortOrder
     description?: SortOrder
     xpReward?: SortOrder
-    participants?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    participants?: ChallengeParticipantOrderByRelationAggregateInput
   }
 
-  export type DailyChallengeWhereUniqueInput = Prisma.AtLeast<{
+  export type ChallengeWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    date?: Date | string
-    AND?: DailyChallengeWhereInput | DailyChallengeWhereInput[]
-    OR?: DailyChallengeWhereInput[]
-    NOT?: DailyChallengeWhereInput | DailyChallengeWhereInput[]
-    title?: StringFilter<"DailyChallenge"> | string
-    description?: StringFilter<"DailyChallenge"> | string
-    xpReward?: IntFilter<"DailyChallenge"> | number
-    participants?: StringNullableListFilter<"DailyChallenge">
-  }, "id" | "date">
+    AND?: ChallengeWhereInput | ChallengeWhereInput[]
+    OR?: ChallengeWhereInput[]
+    NOT?: ChallengeWhereInput | ChallengeWhereInput[]
+    title?: StringFilter<"Challenge"> | string
+    description?: StringFilter<"Challenge"> | string
+    xpReward?: IntFilter<"Challenge"> | number
+    startDate?: DateTimeFilter<"Challenge"> | Date | string
+    endDate?: DateTimeFilter<"Challenge"> | Date | string
+    participants?: ChallengeParticipantListRelationFilter
+  }, "id">
 
-  export type DailyChallengeOrderByWithAggregationInput = {
+  export type ChallengeOrderByWithAggregationInput = {
     id?: SortOrder
-    date?: SortOrder
     title?: SortOrder
     description?: SortOrder
     xpReward?: SortOrder
-    participants?: SortOrder
-    _count?: DailyChallengeCountOrderByAggregateInput
-    _avg?: DailyChallengeAvgOrderByAggregateInput
-    _max?: DailyChallengeMaxOrderByAggregateInput
-    _min?: DailyChallengeMinOrderByAggregateInput
-    _sum?: DailyChallengeSumOrderByAggregateInput
+    startDate?: SortOrder
+    endDate?: SortOrder
+    _count?: ChallengeCountOrderByAggregateInput
+    _avg?: ChallengeAvgOrderByAggregateInput
+    _max?: ChallengeMaxOrderByAggregateInput
+    _min?: ChallengeMinOrderByAggregateInput
+    _sum?: ChallengeSumOrderByAggregateInput
   }
 
-  export type DailyChallengeScalarWhereWithAggregatesInput = {
-    AND?: DailyChallengeScalarWhereWithAggregatesInput | DailyChallengeScalarWhereWithAggregatesInput[]
-    OR?: DailyChallengeScalarWhereWithAggregatesInput[]
-    NOT?: DailyChallengeScalarWhereWithAggregatesInput | DailyChallengeScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"DailyChallenge"> | string
-    date?: DateTimeWithAggregatesFilter<"DailyChallenge"> | Date | string
-    title?: StringWithAggregatesFilter<"DailyChallenge"> | string
-    description?: StringWithAggregatesFilter<"DailyChallenge"> | string
-    xpReward?: IntWithAggregatesFilter<"DailyChallenge"> | number
-    participants?: StringNullableListFilter<"DailyChallenge">
+  export type ChallengeScalarWhereWithAggregatesInput = {
+    AND?: ChallengeScalarWhereWithAggregatesInput | ChallengeScalarWhereWithAggregatesInput[]
+    OR?: ChallengeScalarWhereWithAggregatesInput[]
+    NOT?: ChallengeScalarWhereWithAggregatesInput | ChallengeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Challenge"> | string
+    title?: StringWithAggregatesFilter<"Challenge"> | string
+    description?: StringWithAggregatesFilter<"Challenge"> | string
+    xpReward?: IntWithAggregatesFilter<"Challenge"> | number
+    startDate?: DateTimeWithAggregatesFilter<"Challenge"> | Date | string
+    endDate?: DateTimeWithAggregatesFilter<"Challenge"> | Date | string
+  }
+
+  export type ChallengeParticipantWhereInput = {
+    AND?: ChallengeParticipantWhereInput | ChallengeParticipantWhereInput[]
+    OR?: ChallengeParticipantWhereInput[]
+    NOT?: ChallengeParticipantWhereInput | ChallengeParticipantWhereInput[]
+    id?: StringFilter<"ChallengeParticipant"> | string
+    challengeId?: StringFilter<"ChallengeParticipant"> | string
+    userId?: StringFilter<"ChallengeParticipant"> | string
+    progress?: IntFilter<"ChallengeParticipant"> | number
+    completed?: BoolFilter<"ChallengeParticipant"> | boolean
+    joinedAt?: DateTimeFilter<"ChallengeParticipant"> | Date | string
+    challenge?: XOR<ChallengeScalarRelationFilter, ChallengeWhereInput>
+  }
+
+  export type ChallengeParticipantOrderByWithRelationInput = {
+    id?: SortOrder
+    challengeId?: SortOrder
+    userId?: SortOrder
+    progress?: SortOrder
+    completed?: SortOrder
+    joinedAt?: SortOrder
+    challenge?: ChallengeOrderByWithRelationInput
+  }
+
+  export type ChallengeParticipantWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    challengeId_userId?: ChallengeParticipantChallengeIdUserIdCompoundUniqueInput
+    AND?: ChallengeParticipantWhereInput | ChallengeParticipantWhereInput[]
+    OR?: ChallengeParticipantWhereInput[]
+    NOT?: ChallengeParticipantWhereInput | ChallengeParticipantWhereInput[]
+    challengeId?: StringFilter<"ChallengeParticipant"> | string
+    userId?: StringFilter<"ChallengeParticipant"> | string
+    progress?: IntFilter<"ChallengeParticipant"> | number
+    completed?: BoolFilter<"ChallengeParticipant"> | boolean
+    joinedAt?: DateTimeFilter<"ChallengeParticipant"> | Date | string
+    challenge?: XOR<ChallengeScalarRelationFilter, ChallengeWhereInput>
+  }, "id" | "challengeId_userId">
+
+  export type ChallengeParticipantOrderByWithAggregationInput = {
+    id?: SortOrder
+    challengeId?: SortOrder
+    userId?: SortOrder
+    progress?: SortOrder
+    completed?: SortOrder
+    joinedAt?: SortOrder
+    _count?: ChallengeParticipantCountOrderByAggregateInput
+    _avg?: ChallengeParticipantAvgOrderByAggregateInput
+    _max?: ChallengeParticipantMaxOrderByAggregateInput
+    _min?: ChallengeParticipantMinOrderByAggregateInput
+    _sum?: ChallengeParticipantSumOrderByAggregateInput
+  }
+
+  export type ChallengeParticipantScalarWhereWithAggregatesInput = {
+    AND?: ChallengeParticipantScalarWhereWithAggregatesInput | ChallengeParticipantScalarWhereWithAggregatesInput[]
+    OR?: ChallengeParticipantScalarWhereWithAggregatesInput[]
+    NOT?: ChallengeParticipantScalarWhereWithAggregatesInput | ChallengeParticipantScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ChallengeParticipant"> | string
+    challengeId?: StringWithAggregatesFilter<"ChallengeParticipant"> | string
+    userId?: StringWithAggregatesFilter<"ChallengeParticipant"> | string
+    progress?: IntWithAggregatesFilter<"ChallengeParticipant"> | number
+    completed?: BoolWithAggregatesFilter<"ChallengeParticipant"> | boolean
+    joinedAt?: DateTimeWithAggregatesFilter<"ChallengeParticipant"> | Date | string
   }
 
   export type PostCreateInput = {
@@ -4721,67 +7263,175 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DailyChallengeCreateInput = {
+  export type UserScoreCreateInput = {
+    userId: string
+    xp?: number
+    level?: number
+  }
+
+  export type UserScoreUncheckedCreateInput = {
+    userId: string
+    xp?: number
+    level?: number
+  }
+
+  export type UserScoreUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    xp?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserScoreUncheckedUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    xp?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserScoreCreateManyInput = {
+    userId: string
+    xp?: number
+    level?: number
+  }
+
+  export type UserScoreUpdateManyMutationInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    xp?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserScoreUncheckedUpdateManyInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    xp?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ChallengeCreateInput = {
     id?: string
-    date: Date | string
     title: string
     description: string
     xpReward: number
-    participants?: DailyChallengeCreateparticipantsInput | string[]
+    startDate: Date | string
+    endDate: Date | string
+    participants?: ChallengeParticipantCreateNestedManyWithoutChallengeInput
   }
 
-  export type DailyChallengeUncheckedCreateInput = {
+  export type ChallengeUncheckedCreateInput = {
     id?: string
-    date: Date | string
     title: string
     description: string
     xpReward: number
-    participants?: DailyChallengeCreateparticipantsInput | string[]
+    startDate: Date | string
+    endDate: Date | string
+    participants?: ChallengeParticipantUncheckedCreateNestedManyWithoutChallengeInput
   }
 
-  export type DailyChallengeUpdateInput = {
+  export type ChallengeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     xpReward?: IntFieldUpdateOperationsInput | number
-    participants?: DailyChallengeUpdateparticipantsInput | string[]
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    participants?: ChallengeParticipantUpdateManyWithoutChallengeNestedInput
   }
 
-  export type DailyChallengeUncheckedUpdateInput = {
+  export type ChallengeUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     xpReward?: IntFieldUpdateOperationsInput | number
-    participants?: DailyChallengeUpdateparticipantsInput | string[]
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    participants?: ChallengeParticipantUncheckedUpdateManyWithoutChallengeNestedInput
   }
 
-  export type DailyChallengeCreateManyInput = {
+  export type ChallengeCreateManyInput = {
     id?: string
-    date: Date | string
     title: string
     description: string
     xpReward: number
-    participants?: DailyChallengeCreateparticipantsInput | string[]
+    startDate: Date | string
+    endDate: Date | string
   }
 
-  export type DailyChallengeUpdateManyMutationInput = {
+  export type ChallengeUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     xpReward?: IntFieldUpdateOperationsInput | number
-    participants?: DailyChallengeUpdateparticipantsInput | string[]
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DailyChallengeUncheckedUpdateManyInput = {
+  export type ChallengeUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     xpReward?: IntFieldUpdateOperationsInput | number
-    participants?: DailyChallengeUpdateparticipantsInput | string[]
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChallengeParticipantCreateInput = {
+    id?: string
+    userId: string
+    progress?: number
+    completed?: boolean
+    joinedAt?: Date | string
+    challenge: ChallengeCreateNestedOneWithoutParticipantsInput
+  }
+
+  export type ChallengeParticipantUncheckedCreateInput = {
+    id?: string
+    challengeId: string
+    userId: string
+    progress?: number
+    completed?: boolean
+    joinedAt?: Date | string
+  }
+
+  export type ChallengeParticipantUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    progress?: IntFieldUpdateOperationsInput | number
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    challenge?: ChallengeUpdateOneRequiredWithoutParticipantsNestedInput
+  }
+
+  export type ChallengeParticipantUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    challengeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    progress?: IntFieldUpdateOperationsInput | number
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChallengeParticipantCreateManyInput = {
+    id?: string
+    challengeId: string
+    userId: string
+    progress?: number
+    completed?: boolean
+    joinedAt?: Date | string
+  }
+
+  export type ChallengeParticipantUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    progress?: IntFieldUpdateOperationsInput | number
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChallengeParticipantUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    challengeId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    progress?: IntFieldUpdateOperationsInput | number
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -4981,45 +7631,135 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
+  export type UserScoreCountOrderByAggregateInput = {
+    userId?: SortOrder
+    xp?: SortOrder
+    level?: SortOrder
   }
 
-  export type DailyChallengeCountOrderByAggregateInput = {
+  export type UserScoreAvgOrderByAggregateInput = {
+    xp?: SortOrder
+    level?: SortOrder
+  }
+
+  export type UserScoreMaxOrderByAggregateInput = {
+    userId?: SortOrder
+    xp?: SortOrder
+    level?: SortOrder
+  }
+
+  export type UserScoreMinOrderByAggregateInput = {
+    userId?: SortOrder
+    xp?: SortOrder
+    level?: SortOrder
+  }
+
+  export type UserScoreSumOrderByAggregateInput = {
+    xp?: SortOrder
+    level?: SortOrder
+  }
+
+  export type ChallengeParticipantListRelationFilter = {
+    every?: ChallengeParticipantWhereInput
+    some?: ChallengeParticipantWhereInput
+    none?: ChallengeParticipantWhereInput
+  }
+
+  export type ChallengeParticipantOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ChallengeCountOrderByAggregateInput = {
     id?: SortOrder
-    date?: SortOrder
     title?: SortOrder
     description?: SortOrder
     xpReward?: SortOrder
-    participants?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
   }
 
-  export type DailyChallengeAvgOrderByAggregateInput = {
+  export type ChallengeAvgOrderByAggregateInput = {
     xpReward?: SortOrder
   }
 
-  export type DailyChallengeMaxOrderByAggregateInput = {
+  export type ChallengeMaxOrderByAggregateInput = {
     id?: SortOrder
-    date?: SortOrder
     title?: SortOrder
     description?: SortOrder
     xpReward?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
   }
 
-  export type DailyChallengeMinOrderByAggregateInput = {
+  export type ChallengeMinOrderByAggregateInput = {
     id?: SortOrder
-    date?: SortOrder
     title?: SortOrder
     description?: SortOrder
     xpReward?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
   }
 
-  export type DailyChallengeSumOrderByAggregateInput = {
+  export type ChallengeSumOrderByAggregateInput = {
     xpReward?: SortOrder
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type ChallengeScalarRelationFilter = {
+    is?: ChallengeWhereInput
+    isNot?: ChallengeWhereInput
+  }
+
+  export type ChallengeParticipantChallengeIdUserIdCompoundUniqueInput = {
+    challengeId: string
+    userId: string
+  }
+
+  export type ChallengeParticipantCountOrderByAggregateInput = {
+    id?: SortOrder
+    challengeId?: SortOrder
+    userId?: SortOrder
+    progress?: SortOrder
+    completed?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type ChallengeParticipantAvgOrderByAggregateInput = {
+    progress?: SortOrder
+  }
+
+  export type ChallengeParticipantMaxOrderByAggregateInput = {
+    id?: SortOrder
+    challengeId?: SortOrder
+    userId?: SortOrder
+    progress?: SortOrder
+    completed?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type ChallengeParticipantMinOrderByAggregateInput = {
+    id?: SortOrder
+    challengeId?: SortOrder
+    userId?: SortOrder
+    progress?: SortOrder
+    completed?: SortOrder
+    joinedAt?: SortOrder
+  }
+
+  export type ChallengeParticipantSumOrderByAggregateInput = {
+    progress?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type CommentCreateNestedManyWithoutPostInput = {
@@ -5098,13 +7838,64 @@ export namespace Prisma {
     update?: XOR<XOR<PostUpdateToOneWithWhereWithoutCommentsInput, PostUpdateWithoutCommentsInput>, PostUncheckedUpdateWithoutCommentsInput>
   }
 
-  export type DailyChallengeCreateparticipantsInput = {
-    set: string[]
+  export type ChallengeParticipantCreateNestedManyWithoutChallengeInput = {
+    create?: XOR<ChallengeParticipantCreateWithoutChallengeInput, ChallengeParticipantUncheckedCreateWithoutChallengeInput> | ChallengeParticipantCreateWithoutChallengeInput[] | ChallengeParticipantUncheckedCreateWithoutChallengeInput[]
+    connectOrCreate?: ChallengeParticipantCreateOrConnectWithoutChallengeInput | ChallengeParticipantCreateOrConnectWithoutChallengeInput[]
+    createMany?: ChallengeParticipantCreateManyChallengeInputEnvelope
+    connect?: ChallengeParticipantWhereUniqueInput | ChallengeParticipantWhereUniqueInput[]
   }
 
-  export type DailyChallengeUpdateparticipantsInput = {
-    set?: string[]
-    push?: string | string[]
+  export type ChallengeParticipantUncheckedCreateNestedManyWithoutChallengeInput = {
+    create?: XOR<ChallengeParticipantCreateWithoutChallengeInput, ChallengeParticipantUncheckedCreateWithoutChallengeInput> | ChallengeParticipantCreateWithoutChallengeInput[] | ChallengeParticipantUncheckedCreateWithoutChallengeInput[]
+    connectOrCreate?: ChallengeParticipantCreateOrConnectWithoutChallengeInput | ChallengeParticipantCreateOrConnectWithoutChallengeInput[]
+    createMany?: ChallengeParticipantCreateManyChallengeInputEnvelope
+    connect?: ChallengeParticipantWhereUniqueInput | ChallengeParticipantWhereUniqueInput[]
+  }
+
+  export type ChallengeParticipantUpdateManyWithoutChallengeNestedInput = {
+    create?: XOR<ChallengeParticipantCreateWithoutChallengeInput, ChallengeParticipantUncheckedCreateWithoutChallengeInput> | ChallengeParticipantCreateWithoutChallengeInput[] | ChallengeParticipantUncheckedCreateWithoutChallengeInput[]
+    connectOrCreate?: ChallengeParticipantCreateOrConnectWithoutChallengeInput | ChallengeParticipantCreateOrConnectWithoutChallengeInput[]
+    upsert?: ChallengeParticipantUpsertWithWhereUniqueWithoutChallengeInput | ChallengeParticipantUpsertWithWhereUniqueWithoutChallengeInput[]
+    createMany?: ChallengeParticipantCreateManyChallengeInputEnvelope
+    set?: ChallengeParticipantWhereUniqueInput | ChallengeParticipantWhereUniqueInput[]
+    disconnect?: ChallengeParticipantWhereUniqueInput | ChallengeParticipantWhereUniqueInput[]
+    delete?: ChallengeParticipantWhereUniqueInput | ChallengeParticipantWhereUniqueInput[]
+    connect?: ChallengeParticipantWhereUniqueInput | ChallengeParticipantWhereUniqueInput[]
+    update?: ChallengeParticipantUpdateWithWhereUniqueWithoutChallengeInput | ChallengeParticipantUpdateWithWhereUniqueWithoutChallengeInput[]
+    updateMany?: ChallengeParticipantUpdateManyWithWhereWithoutChallengeInput | ChallengeParticipantUpdateManyWithWhereWithoutChallengeInput[]
+    deleteMany?: ChallengeParticipantScalarWhereInput | ChallengeParticipantScalarWhereInput[]
+  }
+
+  export type ChallengeParticipantUncheckedUpdateManyWithoutChallengeNestedInput = {
+    create?: XOR<ChallengeParticipantCreateWithoutChallengeInput, ChallengeParticipantUncheckedCreateWithoutChallengeInput> | ChallengeParticipantCreateWithoutChallengeInput[] | ChallengeParticipantUncheckedCreateWithoutChallengeInput[]
+    connectOrCreate?: ChallengeParticipantCreateOrConnectWithoutChallengeInput | ChallengeParticipantCreateOrConnectWithoutChallengeInput[]
+    upsert?: ChallengeParticipantUpsertWithWhereUniqueWithoutChallengeInput | ChallengeParticipantUpsertWithWhereUniqueWithoutChallengeInput[]
+    createMany?: ChallengeParticipantCreateManyChallengeInputEnvelope
+    set?: ChallengeParticipantWhereUniqueInput | ChallengeParticipantWhereUniqueInput[]
+    disconnect?: ChallengeParticipantWhereUniqueInput | ChallengeParticipantWhereUniqueInput[]
+    delete?: ChallengeParticipantWhereUniqueInput | ChallengeParticipantWhereUniqueInput[]
+    connect?: ChallengeParticipantWhereUniqueInput | ChallengeParticipantWhereUniqueInput[]
+    update?: ChallengeParticipantUpdateWithWhereUniqueWithoutChallengeInput | ChallengeParticipantUpdateWithWhereUniqueWithoutChallengeInput[]
+    updateMany?: ChallengeParticipantUpdateManyWithWhereWithoutChallengeInput | ChallengeParticipantUpdateManyWithWhereWithoutChallengeInput[]
+    deleteMany?: ChallengeParticipantScalarWhereInput | ChallengeParticipantScalarWhereInput[]
+  }
+
+  export type ChallengeCreateNestedOneWithoutParticipantsInput = {
+    create?: XOR<ChallengeCreateWithoutParticipantsInput, ChallengeUncheckedCreateWithoutParticipantsInput>
+    connectOrCreate?: ChallengeCreateOrConnectWithoutParticipantsInput
+    connect?: ChallengeWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type ChallengeUpdateOneRequiredWithoutParticipantsNestedInput = {
+    create?: XOR<ChallengeCreateWithoutParticipantsInput, ChallengeUncheckedCreateWithoutParticipantsInput>
+    connectOrCreate?: ChallengeCreateOrConnectWithoutParticipantsInput
+    upsert?: ChallengeUpsertWithoutParticipantsInput
+    connect?: ChallengeWhereUniqueInput
+    update?: XOR<XOR<ChallengeUpdateToOneWithWhereWithoutParticipantsInput, ChallengeUpdateWithoutParticipantsInput>, ChallengeUncheckedUpdateWithoutParticipantsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -5243,6 +8034,19 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type CommentCreateWithoutPostInput = {
     id?: string
     authorId: string
@@ -5346,6 +8150,112 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ChallengeParticipantCreateWithoutChallengeInput = {
+    id?: string
+    userId: string
+    progress?: number
+    completed?: boolean
+    joinedAt?: Date | string
+  }
+
+  export type ChallengeParticipantUncheckedCreateWithoutChallengeInput = {
+    id?: string
+    userId: string
+    progress?: number
+    completed?: boolean
+    joinedAt?: Date | string
+  }
+
+  export type ChallengeParticipantCreateOrConnectWithoutChallengeInput = {
+    where: ChallengeParticipantWhereUniqueInput
+    create: XOR<ChallengeParticipantCreateWithoutChallengeInput, ChallengeParticipantUncheckedCreateWithoutChallengeInput>
+  }
+
+  export type ChallengeParticipantCreateManyChallengeInputEnvelope = {
+    data: ChallengeParticipantCreateManyChallengeInput | ChallengeParticipantCreateManyChallengeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChallengeParticipantUpsertWithWhereUniqueWithoutChallengeInput = {
+    where: ChallengeParticipantWhereUniqueInput
+    update: XOR<ChallengeParticipantUpdateWithoutChallengeInput, ChallengeParticipantUncheckedUpdateWithoutChallengeInput>
+    create: XOR<ChallengeParticipantCreateWithoutChallengeInput, ChallengeParticipantUncheckedCreateWithoutChallengeInput>
+  }
+
+  export type ChallengeParticipantUpdateWithWhereUniqueWithoutChallengeInput = {
+    where: ChallengeParticipantWhereUniqueInput
+    data: XOR<ChallengeParticipantUpdateWithoutChallengeInput, ChallengeParticipantUncheckedUpdateWithoutChallengeInput>
+  }
+
+  export type ChallengeParticipantUpdateManyWithWhereWithoutChallengeInput = {
+    where: ChallengeParticipantScalarWhereInput
+    data: XOR<ChallengeParticipantUpdateManyMutationInput, ChallengeParticipantUncheckedUpdateManyWithoutChallengeInput>
+  }
+
+  export type ChallengeParticipantScalarWhereInput = {
+    AND?: ChallengeParticipantScalarWhereInput | ChallengeParticipantScalarWhereInput[]
+    OR?: ChallengeParticipantScalarWhereInput[]
+    NOT?: ChallengeParticipantScalarWhereInput | ChallengeParticipantScalarWhereInput[]
+    id?: StringFilter<"ChallengeParticipant"> | string
+    challengeId?: StringFilter<"ChallengeParticipant"> | string
+    userId?: StringFilter<"ChallengeParticipant"> | string
+    progress?: IntFilter<"ChallengeParticipant"> | number
+    completed?: BoolFilter<"ChallengeParticipant"> | boolean
+    joinedAt?: DateTimeFilter<"ChallengeParticipant"> | Date | string
+  }
+
+  export type ChallengeCreateWithoutParticipantsInput = {
+    id?: string
+    title: string
+    description: string
+    xpReward: number
+    startDate: Date | string
+    endDate: Date | string
+  }
+
+  export type ChallengeUncheckedCreateWithoutParticipantsInput = {
+    id?: string
+    title: string
+    description: string
+    xpReward: number
+    startDate: Date | string
+    endDate: Date | string
+  }
+
+  export type ChallengeCreateOrConnectWithoutParticipantsInput = {
+    where: ChallengeWhereUniqueInput
+    create: XOR<ChallengeCreateWithoutParticipantsInput, ChallengeUncheckedCreateWithoutParticipantsInput>
+  }
+
+  export type ChallengeUpsertWithoutParticipantsInput = {
+    update: XOR<ChallengeUpdateWithoutParticipantsInput, ChallengeUncheckedUpdateWithoutParticipantsInput>
+    create: XOR<ChallengeCreateWithoutParticipantsInput, ChallengeUncheckedCreateWithoutParticipantsInput>
+    where?: ChallengeWhereInput
+  }
+
+  export type ChallengeUpdateToOneWithWhereWithoutParticipantsInput = {
+    where?: ChallengeWhereInput
+    data: XOR<ChallengeUpdateWithoutParticipantsInput, ChallengeUncheckedUpdateWithoutParticipantsInput>
+  }
+
+  export type ChallengeUpdateWithoutParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    xpReward?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChallengeUncheckedUpdateWithoutParticipantsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    xpReward?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CommentCreateManyPostInput = {
     id?: string
     authorId: string
@@ -5372,6 +8282,38 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChallengeParticipantCreateManyChallengeInput = {
+    id?: string
+    userId: string
+    progress?: number
+    completed?: boolean
+    joinedAt?: Date | string
+  }
+
+  export type ChallengeParticipantUpdateWithoutChallengeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    progress?: IntFieldUpdateOperationsInput | number
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChallengeParticipantUncheckedUpdateWithoutChallengeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    progress?: IntFieldUpdateOperationsInput | number
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChallengeParticipantUncheckedUpdateManyWithoutChallengeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    progress?: IntFieldUpdateOperationsInput | number
+    completed?: BoolFieldUpdateOperationsInput | boolean
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

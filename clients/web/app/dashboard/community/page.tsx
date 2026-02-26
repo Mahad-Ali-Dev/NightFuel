@@ -54,7 +54,7 @@ const FEED_ITEMS = [
     }
 ];
 
-const LEADERBOARD = [
+const MOCK_LEADERBOARD = [
     { rank: 1, name: 'Marcus P.', score: 12450 },
     { rank: 2, name: 'Elena V.', score: 11200 },
     { rank: 3, name: 'You', score: 9850, isUser: true },
@@ -71,6 +71,18 @@ export default function CommunityFeedPage() {
         queryFn: async () => {
             const { data } = await communityApi.get('/feed');
             return data;
+        }
+    });
+
+    const { data: leaderboardResponse } = useQuery({
+        queryKey: ['communityLeaderboard'],
+        queryFn: async () => {
+            try {
+                const { data } = await communityApi.get('/leaderboard');
+                return data;
+            } catch (err) {
+                return null; // Fallback handled in render
+            }
         }
     });
 
@@ -110,6 +122,17 @@ export default function CommunityFeedPage() {
             }));
         }
     };
+
+    // Construct leaderboard display data
+    let displayLeaderboard = MOCK_LEADERBOARD;
+    if (leaderboardResponse && leaderboardResponse.leaderboard?.length > 0) {
+        displayLeaderboard = leaderboardResponse.leaderboard.map((userScore: any, index: number) => ({
+            rank: index + 1,
+            name: `User ${userScore.userId.substring(0, 4)}`, // Mock name based on ID
+            score: userScore.xp,
+            isUser: userScore.userId === leaderboardResponse.myScore?.userId,
+        }));
+    }
 
     return (
         <div className="min-h-screen bg-transparent p-4 md:p-8">
@@ -262,7 +285,7 @@ export default function CommunityFeedPage() {
                                 </h3>
                             </div>
                             <div className="space-y-3">
-                                {LEADERBOARD.map((user) => (
+                                {displayLeaderboard.map((user) => (
                                     <div
                                         key={user.rank}
                                         className={cn(

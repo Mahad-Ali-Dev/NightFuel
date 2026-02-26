@@ -56,9 +56,44 @@ export default async function (fastify: FastifyInstance, opts: { communityServic
         return reply.code(201).send(await communityService.addComment(id, userId, text));
     });
 
+    // Challenges
     fastify.get('/v1/community/challenges', {
         preHandler: [(fastify as any).authenticate]
     }, async (request, reply) => {
-        return reply.send(await communityService.getChallenges(new Date()));
+        const userId = (request as any).user?.id || (request as any).user?.userId;
+        return reply.send(await communityService.getChallenges(userId));
+    });
+
+    fastify.post('/v1/community/challenges/:id/join', {
+        schema: { params: z.object({ id: z.string().uuid() }) },
+        preHandler: [(fastify as any).authenticate]
+    }, async (request, reply) => {
+        const userId = (request as any).user?.id || (request as any).user?.userId;
+        const { id } = request.params as any;
+        return reply.code(201).send(await communityService.joinChallenge(id, userId));
+    });
+
+    fastify.post('/v1/community/challenges/:id/progress', {
+        schema: {
+            params: z.object({ id: z.string().uuid() }),
+            body: z.object({ progress: z.number().min(0).max(100) })
+        },
+        preHandler: [(fastify as any).authenticate]
+    }, async (request, reply) => {
+        const userId = (request as any).user?.id || (request as any).user?.userId;
+        const { id } = request.params as any;
+        const { progress } = request.body as any;
+        return reply.send(await communityService.updateChallengeProgress(id, userId, progress));
+    });
+
+    // Leaderboard
+    fastify.get('/v1/community/leaderboard', {
+        schema: { querystring: z.object({ limit: z.coerce.number().default(10) }) },
+        preHandler: [(fastify as any).authenticate]
+    }, async (request, reply) => {
+        const { limit } = request.query as any;
+        const topUsers = await communityService.getLeaderboard(limit);
+        const me = await communityService.getUserScore((request as any).user?.id || (request as any).user?.userId);
+        return reply.send({ leaderboard: topUsers, myScore: me });
     });
 };

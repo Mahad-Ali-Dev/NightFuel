@@ -44,10 +44,59 @@ export class CommunityService {
         });
     }
 
-    async getChallenges(date: Date) {
-        // Strip out time part
-        const searchDate = new Date(date).toISOString().split('T')[0];
-        // The mock will just return all active ones for the sake of the E2E demo
-        return this.prisma.dailyChallenge.findMany();
+    async getChallenges(userId?: string) {
+        return this.prisma.challenge.findMany({
+            include: {
+                participants: userId ? { where: { userId } } : false
+            },
+            orderBy: { startDate: 'desc' }
+        });
+    }
+
+    async joinChallenge(challengeId: string, userId: string) {
+        return this.prisma.challengeParticipant.create({
+            data: { challengeId, userId }
+        });
+    }
+
+    async updateChallengeProgress(challengeId: string, userId: string, progress: number) {
+        const participant = await this.prisma.challengeParticipant.findUnique({
+            where: { challengeId_userId: { challengeId, userId } },
+            include: { challenge: true }
+        });
+
+        if (!participant) throw new Error('Not joined');
+        if (participant.completed) return participant; // Already done
+
+        // Simple mock logic: if progress >= 100, completed
+        const isCompleted = progress >= 100;
+
+        const updated = await this.prisma.challengeParticipant.update({
+            where: { id: participant.id },
+            data: { progress, completed: isCompleted }
+        });
+
+        if (isCompleted) {
+            // Award XP
+            await this.prisma.userScore.upsert({
+                where: { userId },
+                create: { userId, xp: participant.challenge.xpReward },
+                update: { xp: { increment: participant.challenge.xpReward } }
+            });
+        }
+
+        return updated;
+    }
+
+    async getLeaderboard(limit: number = 10) {
+        return this.prisma.userScore.findMany({
+            take: limit,
+            orderBy: { xp: 'desc' }
+        });
+    }
+
+    async getUserScore(userId: string) {
+        const score = await this.prisma.userScore.findUnique({ where: { userId } });
+        return score || { userId, xp: 0, level: 1 };
     }
 }

@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { chatApi } from '@/lib/api';
+import { chatApi, enrollAsCoach, bookCoachSession } from '@/lib/api';
 import {
     ChevronLeft, Users, Star, Award, Search,
     Filter, ChevronRight, MessageCircle, MapPin,
-    Dumbbell, Apple
+    Dumbbell, Apple, DollarSign
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -88,6 +88,37 @@ export default function CoachesDirectoryPage() {
     const router = useRouter();
     const [search, setSearch] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    const handleOnboard = async () => {
+        try {
+            setIsProcessing(true);
+            const { data } = await enrollAsCoach();
+            if (data?.onboardingUrl) {
+                window.location.href = data.onboardingUrl;
+            }
+        } catch (err) {
+            console.error('Failed to start onboarding', err);
+            alert('Failed to start Stripe onboarding. Please try again later.');
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+
+    const handleCheckout = async (coachId: string, amount: number) => {
+        try {
+            setIsProcessing(true);
+            const { data } = await bookCoachSession(coachId, amount);
+            if (data?.checkoutUrl) {
+                window.location.href = data.checkoutUrl;
+            }
+        } catch (err: any) {
+            console.error('Failed to start checkout', err);
+            alert(err.response?.data?.error || 'Failed to initialize checkout. The coach may not have set up payments yet.');
+        } finally {
+            setIsProcessing(false);
+        }
+    };
 
     const { data: dbCoaches = [], isLoading } = useQuery({
         queryKey: ['coachesDirectory'],
@@ -137,6 +168,14 @@ export default function CoachesDirectoryPage() {
                             <p className="text-neutral-400 text-sm mt-0.5">Find the perfect expert to reach your goals</p>
                         </div>
                     </div>
+                    <Button
+                        onClick={handleOnboard}
+                        disabled={isProcessing}
+                        className="bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-bold"
+                    >
+                        <DollarSign size={16} className="mr-2" />
+                        Become a Coach
+                    </Button>
                 </header>
 
                 {/* Filters */}
@@ -249,7 +288,8 @@ export default function CoachesDirectoryPage() {
                                         </Link>
 
                                         <Button
-                                            disabled={!coach.available}
+                                            onClick={() => handleCheckout(coach.id, parseInt(coach.price.replace(/[^0-9]/g, ''), 10) * 100 || 5000)}
+                                            disabled={!coach.available || isProcessing}
                                             className={cn(
                                                 "rounded-xl font-bold transition-all px-6",
                                                 coach.available
@@ -257,7 +297,7 @@ export default function CoachesDirectoryPage() {
                                                     : "bg-white/5 text-neutral-500 cursor-not-allowed"
                                             )}
                                         >
-                                            {coach.available ? 'View Profile' : 'Waitlist Full'}
+                                            {coach.available ? 'Book Session' : 'Waitlist Full'}
                                         </Button>
                                     </div>
                                 </motion.div>

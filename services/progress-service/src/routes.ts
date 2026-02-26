@@ -342,6 +342,35 @@ export const progressRoutes: FastifyPluginAsyncZod<{
     });
 
     // -------------------------------------------------------------------------
+    // POST /v1/progress/wearable/sync
+    // Syncs steps from Apple Health / Google Fit
+    // -------------------------------------------------------------------------
+    fastify.post('/wearable/sync', {
+        schema: {
+            body: z.object({
+                steps: z.number().int().min(0),
+                source: z.string().optional().default('WEARABLE')
+            }),
+            response: {
+                200: dailyProgressResponseSchema,
+                500: errorResponseSchema,
+            },
+        },
+        preHandler: [fastify.authenticate],
+    }, async (request, reply) => {
+        try {
+            // @ts-ignore
+            const userId: string = (request.user as any).id || (request.user as any).userId;
+            const { steps, source } = request.body as { steps: number; source: string };
+            const result = await progressService.logSteps(userId, steps, source);
+            return reply.status(200).send(result as any);
+        } catch (err: any) {
+            request.log.error(err);
+            return reply.status(500).send({ error: err?.message ?? 'Internal server error' });
+        }
+    });
+
+    // -------------------------------------------------------------------------
     // POST /v1/progress/ai-usage
     // Internal Service Endpoint for tracking AI LLM cost telemetry
     // -------------------------------------------------------------------------

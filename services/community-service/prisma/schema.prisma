@@ -36,14 +36,38 @@ model Comment {
   @@map("comments")
 }
 
-model DailyChallenge {
+model UserScore {
+  userId String @id @map("user_id")
+  xp     Int    @default(0)
+  level  Int    @default(1)
+
+  @@index([xp(sort: Desc)])
+  @@map("user_scores")
+}
+
+model Challenge {
   id           String   @id @default(uuid())
-  date         DateTime @db.Date
   title        String
   description  String
   xpReward     Int      @map("xp_reward")
-  participants String[] @default([]) // Array of user IDs
+  startDate    DateTime @map("start_date")
+  endDate      DateTime @map("end_date")
+  
+  participants ChallengeParticipant[]
 
-  @@unique([date])
-  @@map("daily_challenges")
+  @@map("challenges")
+}
+
+model ChallengeParticipant {
+  id          String   @id @default(uuid())
+  challengeId String   @map("challenge_id")
+  userId      String   @map("user_id")
+  progress    Int      @default(0)
+  completed   Boolean  @default(false)
+  joinedAt    DateTime @default(now()) @map("joined_at")
+
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([challengeId, userId])
+  @@map("challenge_participants")
 }

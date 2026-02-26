@@ -321,6 +321,32 @@ export class SubscriptionService {
     this.logger.info({ userId }, 'subscription.service: updateStripeIds done');
   }
 
+  // ── updateStripeConnectId ───────────────────────────────────────────────────
+  async updateStripeConnectId(
+    userId: string,
+    stripeConnectId: string,
+  ): Promise<void> {
+    const existing = await this.prisma.subscription.findUnique({ where: { userId } });
+    if (!existing) {
+      this.logger.warn({ userId }, 'Cannot update connect ID, no subscription found. Provisioning FREE.');
+      await this.upsertForNewUser(userId);
+    }
+    await this.prisma.subscription.update({
+      where: { userId },
+      data: { stripeConnectId },
+    });
+    this.logger.info({ userId }, 'subscription.service: updateStripeConnectId done');
+  }
+
+  // ── getStripeConnectId ──────────────────────────────────────────────────────
+  async getStripeConnectId(userId: string): Promise<string | null> {
+    const sub = await this.prisma.subscription.findUnique({
+      where: { userId },
+      select: { stripeConnectId: true },
+    });
+    return sub?.stripeConnectId ?? null;
+  }
+
   // ── syncStripeSubscription ──────────────────────────────────────────────────
   async syncStripeSubscription(
     userId: string,

@@ -119,6 +119,100 @@ export function registerStripeRoutes(
     },
   );
 
+  // ── POST /v1/subscriptions/coach/onboard ───────────────────────────────────
+  fastify.post(
+    '/v1/subscriptions/coach/onboard',
+    { preHandler: [(fastify as any).authenticate] },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      if (!isStripeConfigured()) {
+        return reply.status(503).send({ error: 'Stripe not configured' });
+      }
+
+      const user = (request as any).user as { id?: string; userId?: string };
+      const userId = user?.id ?? user?.userId;
+      if (!userId) return reply.status(401).send({ error: 'Unauthorized' });
+
+      try {
+        let connectId = await subscriptionService.getStripeConnectId(userId);
+
+        if (!connectId) {
+          const account = await stripe.accounts.create({
+            type: 'express',
+            metadata: { userId },
+          });
+          connectId = account.id;
+          await subscriptionService.updateStripeConnectId(userId, connectId);
+        }
+
+        const appUrl = process.env['APP_URL'] ?? 'http://localhost:3000';
+        const accountLink = await stripe.accountLinks.create({
+          account: connectId,
+          refresh_url: `${appUrl}/settings/coach?refresh=1`,
+          return_url: `${appUrl}/settings/coach?success=1`,
+          type: 'account_onboarding',
+        });
+
+        return reply.status(200).send({ onboardingUrl: accountLink.url });
+      } catch (err: any) {
+        logger.error({ err: err.message, userId }, '[stripe] connect onboarding failed');
+        return reply.status(500).send({ error: err.message });
+      }
+    }
+  );
+
+  // ── POST /v1/subscriptions/coach/checkout ────────────────────────────────
+  fastify.post(
+    '/v1/subscriptions/coach/checkout',
+    { preHandler: [(fastify as any).authenticate] },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      if (!isStripeConfigured()) return reply.status(503).send({ error: 'Stripe not configured' });
+
+      const user = (request as any).user as { id?: string; userId?: string };
+      const clientId = user?.id ?? user?.userId;
+      if (!clientId) return reply.status(401).send({ error: 'Unauthorized' });
+
+      const body = request.body as { coachId: string; amount: number; successUrl?: string; cancelUrl?: string };
+      const { coachId, amount, successUrl, cancelUrl } = body;
+
+      if (!coachId || !amount || amount < 500) { // Min 5.00
+        return reply.status(400).send({ error: 'Invalid coachId or amount (min 500 cents)' });
+      }
+
+      const coachConnectId = await subscriptionService.getStripeConnectId(coachId);
+      if (!coachConnectId) {
+        return reply.status(400).send({ error: 'Coach has not set up Stripe payments.' });
+      }
+
+      try {
+        // NightFuel takes a 10% platform fee
+        const applicationFeeAmount = Math.round(amount * 0.10);
+
+        const session = await stripe.checkout.sessions.create({
+          mode: 'payment',
+          payment_intent_data: {
+            application_fee_amount: applicationFeeAmount,
+            transfer_data: { destination: coachConnectId },
+          },
+          line_items: [{
+            price_data: {
+              currency: 'usd',
+              product_data: { name: 'NightFuel Coaching Session' },
+              unit_amount: amount,
+            },
+            quantity: 1,
+          }],
+          success_url: successUrl ?? `${process.env['APP_URL'] ?? 'http://localhost:3000'}/dashboard/coach?success=1`,
+          cancel_url: cancelUrl ?? `${process.env['APP_URL'] ?? 'http://localhost:3000'}/dashboard/coach?cancelled=1`,
+        });
+
+        return reply.status(200).send({ checkoutUrl: session.url, sessionId: session.id });
+      } catch (err: any) {
+        logger.error({ err: err.message, clientId, coachId }, '[stripe] coach checkout failed');
+        return reply.status(500).send({ error: 'Internal Server Error' });
+      }
+    }
+  );
+
   // ── POST /v1/subscriptions/webhook ─────────────────────────────────────────
   // No authentication — verified by Stripe-Signature header instead.
   fastify.post(

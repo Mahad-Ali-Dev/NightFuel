@@ -91,6 +91,9 @@ export const subscriptionApi = axios.create({
     headers: { 'Content-Type': 'application/json' },
 });
 
+export const enrollAsCoach = () => subscriptionApi.post('/coach/onboard');
+export const bookCoachSession = (coachId: string, amount: number) => subscriptionApi.post('/coach/checkout', { coachId, amount });
+
 export const aiApi = axios.create({
     baseURL: AI_API_URL,
     headers: {
