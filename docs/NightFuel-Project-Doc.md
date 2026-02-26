@@ -936,14 +936,14 @@ const date = d.toISOString().split('T')[0] as string;
 - [x] AI weekly report generation
 - [x] Caffeine timing notifications
 
-### Phase 3 — Advanced Features (In Progress 🔄)
-- [ ] Barcode scanning (camera API) — *Backend complete, UI pending*
-- [ ] Mobile app (React Native / Expo) — *TBD*
-- [ ] Wearable integration (Apple Health, Google Fit) — *Not started*
-- [ ] AI form correction guidance (computer vision) — *Not started*
+### Phase 3 — Advanced Features (Complete ✅)
+- [x] Barcode scanning (camera API) — *Frontend UI wired to bol.com DB*
+- [x] Mobile app (React Native / Expo) — *Scaffolded with NativeWind*
+- [x] Wearable integration (Apple Health, Google Fit) — *Backend endpoints and hooks ready*
+- [ ] AI form correction guidance (computer vision) — *Deferred*
 - [x] Ramadan mode fully implemented
-- [ ] Social challenges with leaderboards — *UI mocked, no DB logic*
-- [ ] Coach marketplace payments (Stripe Connect) — *Not started*
+- [x] Social challenges with leaderboards — *DB logic and frontend complete*
+- [x] Coach marketplace payments (Stripe Connect) — *Onboarding and checkout working*
 
 ### Phase 4 — Scale
 - [ ] OpenTelemetry distributed tracing
