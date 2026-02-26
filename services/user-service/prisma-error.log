@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-02-22T10:02:07.648Z",
+  "userId": "6f03b7aa-a889-406e-a420-83268f10b949",
+  "err": {
+    "name": "PrismaClientKnownRequestError",
+    "code": "P2024",
+    "clientVersion": "5.22.0",
+    "meta": {
+      "modelName": "UserProfile",
+      "connection_limit": 21,
+      "timeout": 10
+    }
+  },
+  "data": {
+    "heightCm": 175,
+    "weightKg": 75,
+    "biologicalSex": "MALE",
+    "dateOfBirth": "1995-01-01T00:00:00.000Z"
+  }
+}
+---
+{
+  "timestamp": "2026-02-22T10:02:55.361Z",
+  "userId": "6f03b7aa-a889-406e-a420-83268f10b949",
+  "err": {
+    "name": "PrismaClientKnownRequestError",
+    "code": "P1001",
+    "clientVersion": "5.22.0",
+    "meta": {
+      "modelName": "UserProfile",
+      "database_host": "aws-1-ap-northeast-2.pooler.supabase.com",
+      "database_port": 6543
+    }
+  },
+  "data": {
+    "heightCm": 175,
+    "weightKg": 75,
+    "biologicalSex": "MALE",
+    "dateOfBirth": "1995-01-01T00:00:00.000Z"
+  }
+}
+---

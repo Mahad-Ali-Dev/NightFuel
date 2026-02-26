@@ -1,0 +1,4 @@
+[2026-02-23T15:11:12.548Z] Received user.onboarding-completed for user 5b481237-8324-47b1-baa1-9f29672dcbc3
+[2026-02-23T15:11:15.149Z] Successfully updated user 5b481237-8324-47b1-baa1-9f29672dcbc3 in auth-service DB
+[2026-02-23T17:10:04.682Z] Received user.onboarding-completed for user 1f2ef89e-c687-4d0a-8b50-2501c3fb42e0
+[2026-02-23T17:10:05.925Z] Successfully updated user 1f2ef89e-c687-4d0a-8b50-2501c3fb42e0 in auth-service DB

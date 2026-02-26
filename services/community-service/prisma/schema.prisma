@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("COMMUNITY_DATABASE_URL")
+  directUrl = env("COMMUNITY_DIRECT_URL")
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  authorId  String   @map("author_id")
+  content   String
+  imageUrl  String?  @map("image_url")
+  likes     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  comments  Comment[]
+
+  @@index([createdAt(sort: Desc)])
+  @@map("posts")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  postId    String   @map("post_id")
+  authorId  String   @map("author_id")
+  text      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@map("comments")
+}
+
+model DailyChallenge {
+  id           String   @id @default(uuid())
+  date         DateTime @db.Date
+  title        String
+  description  String
+  xpReward     Int      @map("xp_reward")
+  participants String[] @default([]) // Array of user IDs
+
+  @@unique([date])
+  @@map("daily_challenges")
+}
