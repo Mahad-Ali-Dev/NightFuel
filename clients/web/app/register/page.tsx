@@ -40,7 +40,7 @@ export default function RegisterPage() {
         try {
             setError(null);
             const { confirmPassword, ...registerData } = data;
-            await registerUser({ ...registerData, region: 'world' });
+            await registerUser({ ...registerData, region: 'us' });
         } catch (err: any) {
             const errData = err.response?.data;
             const message =

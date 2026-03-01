@@ -127,7 +127,37 @@ export const exerciseApi = axios.create({
 
 export const logWorkout = (data: any) => exerciseApi.post('/', data);
 export const getRecentWorkouts = (limit = 10) => exerciseApi.get(`/?limit=${limit}`);
+export const getWorkoutById = (id: string) => exerciseApi.get(`/${id}`);
+export const deleteWorkout = (id: string) => exerciseApi.delete(`/${id}`);
+
+// Workout Sessions
+export const startWorkoutSession = (routineId?: string) => exerciseApi.post('/session/start', { routineId });
+export const getActiveWorkoutSession = () => exerciseApi.get('/session/active');
+export const logSessionExercise = (sessionId: string, data: { exerciseName: string; sets: number; reps: number; weightKg: number; durationSecs: number }) => exerciseApi.post(`/session/${sessionId}/exercise/log`, data);
+export const endWorkoutSession = (sessionId: string) => exerciseApi.post(`/session/${sessionId}/end`);
 export const searchExerciseLibrary = (query: string) => exerciseApi.get(`/library?query=${query}`);
+export const getExerciseHeatmap = () => exerciseApi.get('/history/heatmap');
+export const getExerciseAnalytics = (exerciseName: string) => exerciseApi.get(`/analytics/${encodeURIComponent(exerciseName)}`);
+export const getRoutines = () => exerciseApi.get('/routines');
+export const createRoutine = (data: any) => exerciseApi.post('/routines', data);
+export const getOneRepMaxes = () => exerciseApi.get('/1rm');
+export const logOneRepMax = (data: { exerciseName: string; weightKg: number; estimated1RMKg: number }) => exerciseApi.post('/1rm', data);
+
+// Community helpers
+export const getCommunityFeed = () => communityApi.get('/feed');
+export const createCommunityPost = (data: { content: string; imageUrl?: string }) => communityApi.post('/post', data);
+export const likeCommunityPost = (postId: string) => communityApi.post(`/post/${postId}/like`);
+export const commentOnPost = (postId: string, content: string) => communityApi.post(`/post/${postId}/comment`, { content });
+export const getCommunityLeaderboard = () => communityApi.get('/leaderboard');
+
+// Chat / Messages helpers
+export const getConversations = () => chatApi.get('/conversations');
+export const getMessages = (conversationId: string) => chatApi.get(`/conversations/${conversationId}/messages`);
+export const sendChatMessage = (conversationId: string, text: string) => chatApi.post(`/conversations/${conversationId}/messages`, { text });
+
+// Profile helpers
+export const getMyProfile = () => userApi.get('/me');
+export const updateMyProfile = (data: any) => userApi.patch('/me', data);
 
 export const sleepApi = axios.create({
     baseURL: '/api/sleep',

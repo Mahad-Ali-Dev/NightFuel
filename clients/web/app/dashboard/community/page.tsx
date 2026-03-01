@@ -1,70 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { communityApi } from '@/lib/api';
+import { communityApi, createCommunityPost } from '@/lib/api';
 import {
     Users, Heart, MessageSquare, Share2,
     MoreHorizontal, Flame, Trophy, Crown,
-    Dumbbell
+    Image as ImageIcon, X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
-// Mock feed data
-const FEED_ITEMS = [
-    {
-        id: 'post-1',
-        user: { name: 'Alex M.', avatar: 'AM', isPro: true },
-        timeAgo: '2 hours ago',
-        type: 'workout',
-        content: 'Crushed the Push day today! Bench press is finally feeling solid again.',
-        stats: { duration: '1h 15m', volume: '12,450 kg', prs: 1 },
-        tags: ['Push Day', 'Chest'],
-        likes: 24,
-        comments: 3,
-        likedByUser: true,
-    },
-    {
-        id: 'post-2',
-        user: { name: 'Sarah K.', avatar: 'SK', isPro: false },
-        timeAgo: '5 hours ago',
-        type: 'milestone',
-        content: 'Hit my 100th workout of the year! 🎉 Consistency is key.',
-        stats: null,
-        tags: ['Milestone', 'Consistency'],
-        likes: 89,
-        comments: 12,
-        likedByUser: false,
-    },
-    {
-        id: 'post-3',
-        user: { name: 'David R.', avatar: 'DR', isPro: true },
-        timeAgo: 'Yesterday',
-        type: 'nutrition',
-        content: 'Meal prep Sunday! Made enough chicken and rice for the rest of the week.',
-        stats: { mealsPrep: 14, caloriesPerMeal: 550 },
-        tags: ['Meal Prep', 'Nutrition'],
-        likes: 45,
-        comments: 8,
-        likedByUser: false,
-    }
-];
-
-const MOCK_LEADERBOARD = [
-    { rank: 1, name: 'Marcus P.', score: 12450 },
-    { rank: 2, name: 'Elena V.', score: 11200 },
-    { rank: 3, name: 'You', score: 9850, isUser: true },
-    { rank: 4, name: 'James T.', score: 9100 },
-];
+function formatTimeAgo(dateStr: string): string {
+    const now = Date.now();
+    const then = new Date(dateStr).getTime();
+    const diffMs = now - then;
+    const mins = Math.floor(diffMs / 60000);
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days}d ago`;
+    return new Date(dateStr).toLocaleDateString();
+}
 
 export default function CommunityFeedPage() {
     const router = useRouter();
     const queryClient = useQueryClient();
-    const [feed, setFeed] = useState(FEED_ITEMS);
+
+    const [newPostText, setNewPostText] = useState('');
+    const [newPostImage, setNewPostImage] = useState<string | null>(null);
+    const postImageRef = useRef<HTMLInputElement>(null);
 
     const { data: dbPosts = [], isLoading } = useQuery({
         queryKey: ['communityFeed'],
@@ -81,23 +51,46 @@ export default function CommunityFeedPage() {
                 const { data } = await communityApi.get('/leaderboard');
                 return data;
             } catch (err) {
-                return null; // Fallback handled in render
+                return null;
             }
         }
     });
 
-    const displayFeed = dbPosts.length > 0 ? dbPosts.map((post: any) => ({
+    // Map API posts to display format
+    const posts = (dbPosts || []).map((post: any) => ({
         id: post.id,
-        user: { name: 'User ' + post.authorId.substring(0, 4), avatar: 'US', isPro: false },
-        timeAgo: new Date(post.createdAt).toLocaleDateString(),
+        user: {
+            name: post.author?.displayName || post.authorName || 'User',
+            avatar: post.author?.displayName?.[0] || 'U',
+            isPro: false,
+        },
+        timeAgo: formatTimeAgo(post.createdAt),
         type: 'standard',
         content: post.content,
+        imageUrl: post.imageUrl || null,
         stats: null,
-        tags: [],
-        likes: post.likes,
+        tags: post.tags || [],
+        likes: post._count?.likes || post.likes || 0,
         comments: post._count?.comments || 0,
-        likedByUser: false,
-    })) : feed;
+        likedByUser: post.likedByUser || false,
+    }));
+
+    const createPostMutation = useMutation({
+        mutationFn: (data: { content: string; imageUrl?: string }) => createCommunityPost(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['communityFeed'] });
+            setNewPostText('');
+            setNewPostImage(null);
+        },
+    });
+
+    const handlePost = () => {
+        if (!newPostText.trim()) return;
+        createPostMutation.mutate({
+            content: newPostText.trim(),
+            ...(newPostImage ? { imageUrl: newPostImage } : {}),
+        });
+    };
 
     const likeMutation = useMutation({
         mutationFn: (postId: string) => communityApi.post(`/post/${postId}/like`),
@@ -105,34 +98,18 @@ export default function CommunityFeedPage() {
     });
 
     const toggleLike = (id: string) => {
-        // If it's a real DB post format
-        if (dbPosts.length > 0) {
-            likeMutation.mutate(id);
-        } else {
-            // Mock fallback behavior
-            setFeed(prev => prev.map(post => {
-                if (post.id === id) {
-                    return {
-                        ...post,
-                        likes: post.likedByUser ? post.likes - 1 : post.likes + 1,
-                        likedByUser: !post.likedByUser
-                    };
-                }
-                return post;
-            }));
-        }
+        likeMutation.mutate(id);
     };
 
-    // Construct leaderboard display data
-    let displayLeaderboard = MOCK_LEADERBOARD;
-    if (leaderboardResponse && leaderboardResponse.leaderboard?.length > 0) {
-        displayLeaderboard = leaderboardResponse.leaderboard.map((userScore: any, index: number) => ({
+    // Construct leaderboard display data from API only
+    const displayLeaderboard = leaderboardResponse?.leaderboard?.length > 0
+        ? leaderboardResponse.leaderboard.map((userScore: any, index: number) => ({
             rank: index + 1,
-            name: `User ${userScore.userId.substring(0, 4)}`, // Mock name based on ID
+            name: userScore.displayName || `User ${(userScore.userId as string).substring(0, 4)}`,
             score: userScore.xp,
             isUser: userScore.userId === leaderboardResponse.myScore?.userId,
-        }));
-    }
+        }))
+        : null;
 
     return (
         <div className="min-h-screen bg-transparent p-4 md:p-8">
@@ -169,15 +146,44 @@ export default function CommunityFeedPage() {
                                 <div className="flex-1">
                                     <textarea
                                         placeholder="Share your workout, milestone, or meal prep..."
+                                        value={newPostText}
+                                        onChange={e => setNewPostText(e.target.value)}
                                         className="w-full bg-transparent border-none text-white placeholder-neutral-500 outline-none resize-none h-12 text-sm"
+                                    />
+                                    {newPostImage && (
+                                        <div className="relative mt-2">
+                                            <img src={newPostImage} alt="Upload" className="w-full max-h-48 object-cover rounded-xl" />
+                                            <button onClick={() => setNewPostImage(null)} className="absolute top-2 right-2 p-1 bg-black/60 rounded-full text-white">
+                                                <X size={14} />
+                                            </button>
+                                        </div>
+                                    )}
+                                    <input
+                                        ref={postImageRef}
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) => {
+                                            const file = e.target.files?.[0];
+                                            if (!file) return;
+                                            const reader = new FileReader();
+                                            reader.onload = () => setNewPostImage(reader.result as string);
+                                            reader.readAsDataURL(file);
+                                        }}
                                     />
                                     <div className="flex justify-between items-center mt-2 pt-3 border-t border-white/[0.04]">
                                         <div className="flex gap-2 text-neutral-500">
-                                            <button className="p-2 hover:bg-white/5 rounded-lg transition-colors"><Dumbbell size={16} /></button>
+                                            <button onClick={() => postImageRef.current?.click()} className="p-2 hover:bg-white/5 rounded-lg transition-colors">
+                                                <ImageIcon size={16} />
+                                            </button>
                                             <button className="p-2 hover:bg-white/5 rounded-lg transition-colors"><Flame size={16} /></button>
                                         </div>
-                                        <Button className="bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-bold px-6 py-1 h-8 text-xs">
-                                            Post
+                                        <Button
+                                            onClick={handlePost}
+                                            disabled={!newPostText.trim() || createPostMutation.isPending}
+                                            className="bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-bold px-6 py-1 h-8 text-xs disabled:opacity-50"
+                                        >
+                                            {createPostMutation.isPending ? 'Posting...' : 'Post'}
                                         </Button>
                                     </div>
                                 </div>
@@ -187,7 +193,12 @@ export default function CommunityFeedPage() {
                         {/* Feed Posts */}
                         {isLoading ? (
                             <div className="text-center py-10 text-neutral-500">Loading feed...</div>
-                        ) : displayFeed.map((post: any, i: number) => (
+                        ) : posts.length === 0 ? (
+                            <div className="glass-card p-10 rounded-2xl border-white/[0.04] text-center">
+                                <Users size={40} className="mx-auto text-neutral-600 mb-4" />
+                                <p className="text-neutral-400 text-sm font-bold">No posts yet. Be the first to share!</p>
+                            </div>
+                        ) : posts.map((post: any, i: number) => (
                             <motion.div
                                 key={post.id}
                                 initial={{ opacity: 0, y: 10 }}
@@ -221,6 +232,13 @@ export default function CommunityFeedPage() {
                                     {post.content}
                                 </p>
 
+                                {/* Post Image */}
+                                {post.imageUrl && (
+                                    <div className="rounded-xl overflow-hidden mb-4">
+                                        <img src={post.imageUrl} alt="" className="w-full object-cover max-h-96" />
+                                    </div>
+                                )}
+
                                 {/* Interactive Stats Card for Workout specific posts */}
                                 {post.type === 'workout' && post.stats && (
                                     <div className="bg-brand-500/5 border border-brand-500/20 rounded-xl p-3 flex gap-6 mb-4">
@@ -244,13 +262,15 @@ export default function CommunityFeedPage() {
                                 )}
 
                                 {/* Tags */}
-                                <div className="flex gap-2 mb-4">
-                                    {post.tags.map((tag: string) => (
-                                        <span key={tag} className="text-[10px] bg-white/5 text-neutral-400 px-2 py-1 rounded-md">
-                                            #{tag}
-                                        </span>
-                                    ))}
-                                </div>
+                                {post.tags.length > 0 && (
+                                    <div className="flex gap-2 mb-4">
+                                        {post.tags.map((tag: string) => (
+                                            <span key={tag} className="text-[10px] bg-white/5 text-neutral-400 px-2 py-1 rounded-md">
+                                                #{tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
 
                                 {/* Actions */}
                                 <div className="flex items-center gap-6 pt-3 border-t border-white/[0.04]">
@@ -284,38 +304,47 @@ export default function CommunityFeedPage() {
                                     <Crown size={16} className="text-amber-400" /> Weekly Leaderboard
                                 </h3>
                             </div>
-                            <div className="space-y-3">
-                                {displayLeaderboard.map((user) => (
-                                    <div
-                                        key={user.rank}
-                                        className={cn(
-                                            "flex items-center justify-between p-2 rounded-xl",
-                                            user.isUser ? "bg-brand-500/10 border border-brand-500/20" : "bg-white/[0.02]"
-                                        )}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <span className={cn(
-                                                "w-5 font-black text-xs text-center",
-                                                user.rank === 1 ? 'text-amber-400' :
-                                                    user.rank === 2 ? 'text-neutral-300' :
-                                                        user.rank === 3 ? 'text-amber-700' : 'text-neutral-500'
-                                            )}>
-                                                {user.rank}
-                                            </span>
-                                            <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[8px] text-white font-bold">
-                                                {user.name.split(' ').map(n => n[0]).join('')}
+                            {displayLeaderboard ? (
+                                <div className="space-y-3">
+                                    {displayLeaderboard.map((user: any) => (
+                                        <div
+                                            key={user.rank}
+                                            className={cn(
+                                                "flex items-center justify-between p-2 rounded-xl",
+                                                user.isUser ? "bg-brand-500/10 border border-brand-500/20" : "bg-white/[0.02]"
+                                            )}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <span className={cn(
+                                                    "w-5 font-black text-xs text-center",
+                                                    user.rank === 1 ? 'text-amber-400' :
+                                                        user.rank === 2 ? 'text-neutral-300' :
+                                                            user.rank === 3 ? 'text-amber-700' : 'text-neutral-500'
+                                                )}>
+                                                    {user.rank}
+                                                </span>
+                                                <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[8px] text-white font-bold">
+                                                    {(user.name as string).split(' ').map((n: string) => n[0]).join('')}
+                                                </div>
+                                                <span className={cn("text-xs font-bold", user.isUser ? "text-brand-400" : "text-white")}>
+                                                    {user.name} {user.isUser && "(You)"}
+                                                </span>
                                             </div>
-                                            <span className={cn("text-xs font-bold", user.isUser ? "text-brand-400" : "text-white")}>
-                                                {user.name} {user.isUser && "(You)"}
-                                            </span>
+                                            <span className="text-[10px] text-neutral-400 font-bold">{user.score} pts</span>
                                         </div>
-                                        <span className="text-[10px] text-neutral-400 font-bold">{user.score} pts</span>
-                                    </div>
-                                ))}
-                            </div>
-                            <button className="w-full mt-4 text-[10px] text-brand-400 font-bold uppercase tracking-widest hover:text-brand-300">
-                                View Full Rankings
-                            </button>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center py-6">
+                                    <Trophy size={28} className="mx-auto text-neutral-600 mb-3" />
+                                    <p className="text-neutral-500 text-xs font-bold">Leaderboard coming soon</p>
+                                </div>
+                            )}
+                            {displayLeaderboard && (
+                                <button className="w-full mt-4 text-[10px] text-brand-400 font-bold uppercase tracking-widest hover:text-brand-300">
+                                    View Full Rankings
+                                </button>
+                            )}
                         </div>
                     </div>
 

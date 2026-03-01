@@ -12,7 +12,7 @@ import { z } from 'zod';
 import { ExerciseService } from './exercise.service';
 
 const envSchema = z.object({
-    EXERCISE_PORT: z.string().default('3009'),
+    EXERCISE_PORT: z.string().default('3011'),
     JWT_SECRET: z.string().min(1),
     REDIS_URL: z.string().url(),
 });
@@ -257,11 +257,102 @@ fastify.withTypeProvider<ZodTypeProvider>().post('/v1/exercises/1rm', {
     }
 });
 
+// ── Workout Sessions ──────────────────────────────────────────────────────────
+
+const startSessionSchema = z.object({
+    routineId: z.string().optional()
+});
+
+fastify.withTypeProvider<ZodTypeProvider>().post('/v1/exercises/session/start', {
+    onRequest: [(fastify as any).authenticate],
+    schema: { body: startSessionSchema }
+}, async (request, reply) => {
+    try {
+        const userId = (request.user as any).userId ?? (request.user as any).id;
+        return reply.code(201).send(await exerciseSvc.startSession(userId, request.body.routineId));
+    } catch (err: any) {
+        logger.error(err);
+        return reply.code(500).send({ error: err.message });
+    }
+});
+
+fastify.withTypeProvider<ZodTypeProvider>().get('/v1/exercises/session/active', {
+    onRequest: [(fastify as any).authenticate]
+}, async (request, reply) => {
+    try {
+        const userId = (request.user as any).userId ?? (request.user as any).id;
+        const session = await exerciseSvc.getActiveSession(userId);
+        if (!session) return reply.code(404).send({ error: 'No active session' });
+        return reply.send(session);
+    } catch (err: any) {
+        logger.error(err);
+        return reply.code(500).send({ error: err.message });
+    }
+});
+
+const logSessionExerciseSchema = z.object({
+    exerciseName: z.string().min(1),
+    sets: z.number().int().min(0).default(0),
+    reps: z.number().int().min(0).default(0),
+    weightKg: z.number().min(0).default(0),
+    durationSecs: z.number().int().min(0).default(0)
+});
+
+fastify.withTypeProvider<ZodTypeProvider>().post('/v1/exercises/session/:id/exercise/log', {
+    onRequest: [(fastify as any).authenticate],
+    schema: {
+        params: z.object({ id: z.string().uuid() }),
+        body: logSessionExerciseSchema
+    }
+}, async (request, reply) => {
+    try {
+        const { id } = request.params;
+        return reply.code(201).send(await exerciseSvc.logSessionExercise(
+            id,
+            request.body.exerciseName,
+            request.body.sets,
+            request.body.reps,
+            request.body.weightKg,
+            request.body.durationSecs
+        ));
+    } catch (err: any) {
+        logger.error(err);
+        return reply.code(500).send({ error: err.message });
+    }
+});
+
+fastify.withTypeProvider<ZodTypeProvider>().post('/v1/exercises/session/:id/end', {
+    onRequest: [(fastify as any).authenticate],
+    schema: { params: z.object({ id: z.string().uuid() }) }
+}, async (request, reply) => {
+    try {
+        const { id } = request.params;
+        return reply.send(await exerciseSvc.endSession(id));
+    } catch (err: any) {
+        logger.error(err);
+        return reply.code(500).send({ error: err.message });
+    }
+});
+
 // ── Startup ───────────────────────────────────────────────────────────────────
+
+const connectWithRetry = async (maxRetries = 8, delayMs = 4000) => {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            await prisma.$connect();
+            return;
+        } catch (err: any) {
+            if (attempt === maxRetries) throw err;
+            logger.warn(`DB connection attempt ${attempt}/${maxRetries} failed — retrying in ${delayMs / 1000}s...`);
+            await new Promise(r => setTimeout(r, delayMs));
+            delayMs = Math.min(Math.round(delayMs * 1.5), 30_000);
+        }
+    }
+};
 
 const start = async () => {
     try {
-        await prisma.$connect();
+        await connectWithRetry();
         logger.info('exercise-service: connected to database');
 
         await fastify.listen({ port: parseInt(config.EXERCISE_PORT), host: '0.0.0.0' });

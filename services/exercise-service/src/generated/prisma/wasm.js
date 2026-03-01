@@ -184,6 +184,27 @@ exports.Prisma.OneRepMaxLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.WorkoutSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  routineId: 'routineId',
+  status: 'status',
+  startedAt: 'startedAt',
+  endedAt: 'endedAt',
+  currentExerciseIndex: 'currentExerciseIndex'
+};
+
+exports.Prisma.ExerciseLogScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  exerciseName: 'exerciseName',
+  sets: 'sets',
+  reps: 'reps',
+  weightKg: 'weightKg',
+  durationSecs: 'durationSecs',
+  completedAt: 'completedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -215,7 +236,9 @@ exports.Prisma.ModelName = {
   Exercise: 'Exercise',
   LibraryExercise: 'LibraryExercise',
   WorkoutRoutine: 'WorkoutRoutine',
-  OneRepMaxLog: 'OneRepMaxLog'
+  OneRepMaxLog: 'OneRepMaxLog',
+  WorkoutSession: 'WorkoutSession',
+  ExerciseLog: 'ExerciseLog'
 };
 
 /**

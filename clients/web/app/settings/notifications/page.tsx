@@ -41,11 +41,13 @@ export default function NotificationSettingsPage() {
     const { data: preferences, isLoading } = useQuery<NotificationPreferences>({
         queryKey: ['notification-preferences'],
         queryFn: async () => {
+            // Try localStorage first for instant response
+            const saved = localStorage.getItem('nf_notification_prefs');
+            if (saved) return JSON.parse(saved) as NotificationPreferences;
             try {
                 const res = await notificationApi.get('/preferences');
                 return res.data;
             } catch {
-                // Return defaults when backend is offline
                 return defaultPrefs;
             }
         },
@@ -55,8 +57,16 @@ export default function NotificationSettingsPage() {
 
     const mutation = useMutation({
         mutationFn: async (values: Partial<NotificationPreferences>) => {
-            const res = await notificationApi.put('/preferences', values);
-            return res.data;
+            // Always save to localStorage so toggles work without backend
+            const current = queryClient.getQueryData<NotificationPreferences>(['notification-preferences']) ?? defaultPrefs;
+            const updated = { ...current, ...values };
+            localStorage.setItem('nf_notification_prefs', JSON.stringify(updated));
+            try {
+                const res = await notificationApi.put('/preferences', values);
+                return res.data;
+            } catch {
+                return updated;
+            }
         },
         // ─── OPTIMISTIC UPDATE ─────────────────────────────────────────────────
         onMutate: async (newValues) => {

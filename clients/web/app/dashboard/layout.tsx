@@ -18,8 +18,15 @@ import {
 const navItems = [
     { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', exact: true },
     {
+        href: '/dashboard/training', icon: Timer, label: 'Training', children: [
+            { href: '/dashboard/training/workout', icon: Dumbbell, label: 'Active Workout' },
+        ]
+    },
+    {
         href: '/dashboard/exercises', icon: Dumbbell, label: 'Exercises', children: [
+            { href: '/dashboard/exercises/muscles', icon: Dumbbell, label: 'Muscle Groups' },
             { href: '/dashboard/exercises/routines', icon: BookOpen, label: 'Routines' },
+            { href: '/dashboard/exercises/report', icon: TrendingUp, label: 'Report' },
             { href: '/dashboard/exercises/analytics', icon: TrendingUp, label: 'Analytics' },
             { href: '/dashboard/exercises/calculator', icon: Calculator, label: '1RM Calculator' },
             { href: '/dashboard/exercises/history', icon: History, label: 'History' },
@@ -47,17 +54,19 @@ const navItems = [
     },
     {
         href: '/dashboard/coaches', icon: Users, label: 'Coaches', children: [
-            { href: '/dashboard/coaches/chat', icon: MessageCircle, label: 'Messages' },
+            { href: '/dashboard/coaches/chat', icon: MessageCircle, label: 'Coach Chat' },
         ]
     },
+    { href: '/dashboard/messages', icon: MessageSquare, label: 'Messages' },
+    { href: '/dashboard/profile', icon: Users, label: 'Profile' },
     { href: '/dashboard/plan', icon: ClipboardList, label: 'Plan' },
 ];
 
 const mobileNavItems = [
     { href: '/dashboard', icon: LayoutDashboard, label: 'Home', exact: true },
+    { href: '/dashboard/training', icon: Timer, label: 'Training' },
     { href: '/dashboard/exercises', icon: Dumbbell, label: 'Exercises' },
-    { href: '/dashboard/meals', icon: UtensilsCrossed, label: 'Nutrition' },
-    { href: '/dashboard/performance', icon: TrendingUp, label: 'Progress' },
+    { href: '/dashboard/community', icon: Globe, label: 'Feed' },
     { href: '/dashboard/plan', icon: ClipboardList, label: 'Plan' },
 ];
 

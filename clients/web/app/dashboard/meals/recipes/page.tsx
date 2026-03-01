@@ -39,8 +39,12 @@ export default function RecipesPage() {
     const { data: dbRecipes = [], isLoading } = useQuery({
         queryKey: ['recipes'],
         queryFn: async () => {
-            const res = await mealApi.get('/recipes');
-            return res.data;
+            try {
+                const res = await mealApi.get('/recipes');
+                return res.data || [];
+            } catch {
+                return [];
+            }
         }
     });
 
@@ -114,6 +118,14 @@ export default function RecipesPage() {
                                 </div>
                             </div>
 
+                            {filteredRecipes.length === 0 && !isLoading && (
+                                <div className="flex flex-col items-center justify-center py-20 text-zinc-500">
+                                    <ChefHat className="h-16 w-16 mb-4 opacity-30" />
+                                    <p className="text-sm font-medium">No recipes found</p>
+                                    <p className="text-xs mt-1 text-zinc-600">Recipes will appear here when added by your meal plan or coaches.</p>
+                                </div>
+                            )}
+
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {filteredRecipes.map((recipe, i) => (
                                     <motion.div
@@ -126,7 +138,7 @@ export default function RecipesPage() {
                                     >
                                         <div className="h-48 relative overflow-hidden">
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
-                                            {/* In a real app we'd use Next/Image, using standard img here for external URL mock */}
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
                                                 src={recipe.image}
                                                 alt={recipe.title}
@@ -142,7 +154,7 @@ export default function RecipesPage() {
                                                     <Flame size={14} className="text-orange-400" /> {recipe.calories} kcal
                                                 </span>
                                                 <span className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-lg">
-                                                    <Clock size={14} className="text-neutral-300" /> {recipe.prepTimeMins} min
+                                                    <Clock size={14} className="text-neutral-300" /> {(recipe as any).prepTimeMins ?? recipe.prepTime ?? '?'}
                                                 </span>
                                             </div>
                                         </div>

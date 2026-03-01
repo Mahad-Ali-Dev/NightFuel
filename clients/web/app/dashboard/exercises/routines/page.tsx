@@ -7,10 +7,13 @@ import Link from 'next/link';
 import {
     ChevronLeft, Dumbbell, Clock, Target, Star,
     Flame, Zap, Heart, Shield, Play, ChevronRight,
-    Home, Repeat, TrendingUp, Users
+    Home, Repeat, TrendingUp, Users, Loader2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { startWorkoutSession } from '@/lib/api';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 // ─── Routine Templates ─────────────────────────────────────────────────────────
 
@@ -355,6 +358,35 @@ export default function RoutinesPage() {
     const [selectedRoutine, setSelectedRoutine] = useState<Routine | null>(null);
     const [selectedDayIdx, setSelectedDayIdx] = useState(0);
 
+    const startMutation = useMutation({
+        mutationFn: async (routineId: string) => {
+            const res = await startWorkoutSession(routineId);
+            return res.data?.data ?? res.data;
+        },
+        onSuccess: (session: any) => {
+            // Store current routine exercises in localStorage for workout page
+            if (selectedRoutine) {
+                const day = selectedRoutine.days[selectedDayIdx];
+                localStorage.setItem('nf_active_workout', JSON.stringify({
+                    sessionId: session?.id ?? session?.sessionId,
+                    routineName: selectedRoutine.name,
+                    dayName: day?.name,
+                    exercises: day?.exercises ?? [],
+                }));
+            }
+            toast.success('Workout session started!');
+            router.push('/dashboard/training/workout');
+        },
+        onError: () => {
+            toast.error('Failed to start workout session');
+        },
+    });
+
+    const handleStartWorkout = () => {
+        if (!selectedRoutine) return;
+        startMutation.mutate(selectedRoutine.id);
+    };
+
     return (
         <div className="min-h-screen bg-transparent p-4 md:p-8">
             <div className="max-w-5xl mx-auto space-y-8">
@@ -510,12 +542,18 @@ export default function RoutinesPage() {
                                     {/* Start workout button */}
                                     <div className="p-4">
                                         <Button
+                                            onClick={handleStartWorkout}
+                                            disabled={startMutation.isPending}
                                             className={cn(
                                                 'w-full py-6 rounded-2xl text-white font-bold text-base shadow-lg transition-all',
                                                 'bg-brand-500 hover:bg-brand-600 shadow-brand-500/25'
                                             )}
                                         >
-                                            <Play size={18} className="mr-2" />
+                                            {startMutation.isPending ? (
+                                                <Loader2 size={18} className="mr-2 animate-spin" />
+                                            ) : (
+                                                <Play size={18} className="mr-2" />
+                                            )}
                                             Start {selectedRoutine.days[selectedDayIdx]?.name}
                                         </Button>
                                     </div>

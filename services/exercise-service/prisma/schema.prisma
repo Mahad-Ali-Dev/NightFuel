@@ -88,3 +88,34 @@ model OneRepMaxLog {
   @@index([userId, exerciseName, date(sort: Desc)])
   @@map("1rm_logs")
 }
+
+model WorkoutSession {
+  id                  String       @id @default(uuid())
+  userId              String       @map("user_id")
+  routineId           String?      @map("routine_id")
+  status              String       @default("active") // "active", "completed", "cancelled"
+  startedAt           DateTime     @default(now()) @map("started_at")
+  endedAt             DateTime?    @map("ended_at")
+  currentExerciseIndex Int         @default(0) @map("current_exercise_index")
+
+  logs                ExerciseLog[]
+
+  @@index([userId])
+  @@map("workout_sessions")
+}
+
+model ExerciseLog {
+  id           String         @id @default(uuid())
+  sessionId    String         @map("session_id")
+  exerciseName String         @map("exercise_name")
+  sets         Int            @default(0)
+  reps         Int            @default(0)
+  weightKg     Float          @default(0) @map("weight_kg")
+  durationSecs Int            @default(0) @map("duration_secs")
+  completedAt  DateTime       @default(now()) @map("completed_at")
+
+  session      WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@map("exercise_logs")
+}

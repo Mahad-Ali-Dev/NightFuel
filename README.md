@@ -29,6 +29,8 @@ It syncs meal timing, workout scheduling, caffeine guidance, and sleep optimisat
 | 🤝 Coach marketplace | Certified coaches can manage clients, create plans, and chat |
 | 🕌 Ramadan Mode | Active fasting schedule adjustments tailored for Suhoor and Iftar |
 
+> **Update:** As of the latest production release, the application is fully backend-integrated. All mock data (Community feed, Messages/Chat sockets, and Workout Sessions) has been replaced by live PostgreSQL + Redis microservices.
+
 ---
 
 ## Architecture

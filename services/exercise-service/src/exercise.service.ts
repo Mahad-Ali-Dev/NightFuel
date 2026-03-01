@@ -278,4 +278,43 @@ export class ExerciseService {
             }
         });
     }
+
+    // ── Workout Sessions ──────────────────────────────────────────────────────
+
+    async startSession(userId: string, routineId?: string) {
+        return this.prisma.workoutSession.create({
+            data: {
+                userId,
+                routineId,
+                status: 'active'
+            }
+        });
+    }
+
+    async getActiveSession(userId: string) {
+        return this.prisma.workoutSession.findFirst({
+            where: { userId, status: 'active' },
+            include: { logs: true }
+        });
+    }
+
+    async logSessionExercise(sessionId: string, exerciseName: string, sets: number, reps: number, weightKg: number, durationSecs: number) {
+        return this.prisma.exerciseLog.create({
+            data: {
+                sessionId,
+                exerciseName,
+                sets,
+                reps,
+                weightKg,
+                durationSecs
+            }
+        });
+    }
+
+    async endSession(sessionId: string) {
+        return this.prisma.workoutSession.update({
+            where: { id: sessionId },
+            data: { status: 'completed', endedAt: new Date() }
+        });
+    }
 }

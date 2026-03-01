@@ -18,25 +18,22 @@ export function BarcodeScannerModal({ isOpen, onClose, onScan }: BarcodeScannerM
     const [isScanning, setIsScanning] = useState(true);
 
     const { ref } = useZxing({
-        onDecodeResult(result) {
+        onDecodeResult: (result: any) => {
             const code = result.getText();
             setResult(code);
             setIsScanning(false);
-            // Vibrate if supported
             if (typeof navigator !== 'undefined' && navigator.vibrate) {
                 navigator.vibrate(200);
             }
             onScan(code);
-            setTimeout(onClose, 500); // Close shortly after
+            setTimeout(onClose, 500);
         },
-        onError(error) {
-            // zxing throws error continuously when no barcode is found in the frame
-            // Only care about actual initialization errors
+        onError: (error: any) => {
             if (error.name === 'NotAllowedError' || error.name === 'NotFoundError') {
                 setHasCameraError(true);
             }
         },
-    });
+    } as any);
 
     // Reset state when opened
     useEffect(() => {

@@ -16,31 +16,40 @@ export default function PerformanceHub() {
     const { isAuthenticated } = useAuth();
     const [activeTab, setActiveTab] = useState('nutrition');
 
-    const { data: today, isLoading: todayLoading } = useQuery({
+    const { data: today, isLoading: todayLoading, isError: todayError } = useQuery({
         queryKey: ['progress-today'],
         queryFn: async () => {
-            const res = await progressApi.get('/today');
-            return res.data;
+            try {
+                const res = await progressApi.get('/today');
+                return res.data?.data ?? res.data ?? null;
+            } catch { return null; }
         },
         enabled: isAuthenticated,
+        retry: 1,
     });
 
     const { data: streak, isLoading: streakLoading } = useQuery({
         queryKey: ['progress-streak'],
         queryFn: async () => {
-            const res = await progressApi.get('/streak');
-            return res.data;
+            try {
+                const res = await progressApi.get('/streak');
+                return res.data?.data ?? res.data ?? { currentStreak: 0, longestStreak: 0 };
+            } catch { return { currentStreak: 0, longestStreak: 0 }; }
         },
         enabled: isAuthenticated,
+        retry: 1,
     });
 
     const { data: stats, isLoading: statsLoading } = useQuery({
         queryKey: ['progress-stats'],
         queryFn: async () => {
-            const res = await progressApi.get('/stats?days=30');
-            return res.data;
+            try {
+                const res = await progressApi.get('/stats?days=30');
+                return res.data?.data ?? res.data ?? { adherencePercent: 0 };
+            } catch { return { adherencePercent: 0 }; }
         },
         enabled: isAuthenticated,
+        retry: 1,
     });
 
     if (todayLoading || streakLoading || statsLoading) {

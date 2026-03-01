@@ -153,7 +153,7 @@ const nextConfig = {
             },
             {
                 source: '/api/subscriptions/:path*',
-                destination: 'http://localhost:3012/v1/subscriptions/:path*',
+                destination: 'http://localhost:3010/v1/subscriptions/:path*',
             },
             {
                 source: '/api/exercises/:path*',
@@ -161,7 +161,7 @@ const nextConfig = {
             },
             {
                 source: '/api/sleep/:path*',
-                destination: 'http://localhost:3010/v1/sleep/:path*',
+                destination: 'http://localhost:3012/v1/sleep/:path*',
             },
             {
                 source: '/api/community/:path*',
@@ -174,6 +174,14 @@ const nextConfig = {
             {
                 source: '/api/chat/:path*',
                 destination: 'http://localhost:3014/v1/chat/:path*',
+            },
+            {
+                source: '/api/state/:path*',
+                destination: 'http://localhost:3015/v1/state/:path*',
+            },
+            {
+                source: '/api/decision/:path*',
+                destination: 'http://localhost:3016/v1/decision/:path*',
             },
         ];
     },

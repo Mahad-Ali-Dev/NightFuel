@@ -29,7 +29,7 @@ export default function LogSleepPage() {
     const [notes, setNotes] = useState('');
 
     const mutation = useMutation({
-        mutationFn: (data: any) => sleepApi.post('/', data),
+        mutationFn: (data: any) => sleepApi.post('', data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['sleep'] });
             toast.success('Sleep session logged!');
